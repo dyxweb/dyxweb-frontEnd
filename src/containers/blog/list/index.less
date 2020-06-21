@@ -1,0 +1,49 @@
+.blog {
+  margin: 0 auto;
+  min-height: calc(100vh - 49px);
+  .blog-list {
+    width: 960px;
+    margin: 0 auto;
+    :global {
+      .ant-tabs {
+        margin-bottom: 6px;
+        .ant-btn {
+          margin-right: 12px;
+        }
+      }
+    }
+    .blog-item {
+      background: #fff;
+      padding: 16px 24px;
+      border-bottom: 1px solid#eee;
+      .top-des {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .des {
+          margin-bottom: 8px;
+          .tag {
+            color: #b71ed7;
+            margin-right: 4px;
+          }
+        }
+        .right-operation {
+          :global {
+            .ant-btn {
+              height: auto;
+              padding-left: 0px;
+            }
+          }
+        }
+      }
+      .title {
+        font-size: 18px;
+        font-weight: 700;
+        cursor: pointer;
+        &:hover {
+          color: #0093ee;
+        }
+      }
+    }
+  }
+}
