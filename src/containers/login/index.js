@@ -47,7 +47,7 @@ export default class Login extends Component {
             this.props.dispatch({
               type: 'login'
             });
-            // this.props.dispatch(changePermission('manager'));
+            this.props.dispatch(changePermission(_.get(res, 'data.permission') || 'normal'));
             message.success('登陆成功');
             this.props.colseDialogFunc();
             // 记住用户名

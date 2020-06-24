@@ -1,0 +1,17 @@
+.left-nav {
+  :global {
+    .ant-menu {
+      width: 256px;
+      height: calc(100vh - 49px);
+      overflow-y: auto;
+      .ant-menu-item {
+        width: 100% !important;
+        a {
+          width: 100%;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+      }
+    }
+  }
+}

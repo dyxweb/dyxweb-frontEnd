@@ -17,21 +17,25 @@ export default {
       exact: true,
       path: '/trainning/student/add',
       render: props => <StudentOperation {...props} operationType='add' />,
+      routePermission: 'manager',
     },
     {
       exact: true,
       path: '/trainning/student/:studentId/edit',
       render: props => <StudentOperation {...props} operationType='edit' />,
+      routePermission: 'manager',
     },
     {
       exact: true,
       path: '/trainning/teacher/add',
       render: props => <TeacherOperation {...props} operationType='add' />,
+      routePermission: 'manager',
     },
     {
       exact: true,
       path: '/trainning/teacher/:teacherId/edit',
       render: props => <TeacherOperation {...props} operationType='edit' />,
+      routePermission: 'manager',
     },
   ],
   partScreen: [
@@ -39,11 +43,13 @@ export default {
       exact: true,
       path: '/trainning/student',
       component: StudentList,
+      routePermission: 'manager',
     },
     {
       exact: true,
       path: '/trainning/teacher',
       component: TeacherList,
+      routePermission: 'manager',
     },
   ]
 }
