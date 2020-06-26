@@ -20,7 +20,7 @@ module.exports = merge(common, {
       logLevel: 'info'
     }),
     new webpack.DefinePlugin({
-      'QUERYHOST': JSON.stringify('http://47.99.184.72:7001'),
+      'QUERYHOST': JSON.stringify('http://47.99.184.72:7001/api'),
     }), // 定义全局的变量(一般用于区分生产环境和开发环境)
   ]
 })

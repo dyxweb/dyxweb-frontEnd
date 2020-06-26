@@ -3,7 +3,7 @@
  */
 import React, { Component } from 'react';
 import CSSModules from 'react-css-modules';
-import { Button, Tabs, message } from 'antd';
+import { Button, Tabs, message, Popconfirm } from 'antd';
 import moment from 'moment';
 import request from 'utils/request';
 import _ from 'lodash';
@@ -101,7 +101,14 @@ export default class BlogList extends Component {
               </div>
               <div styleName="right-operation">
                 <Button type="link" onClick={() => this.editBlog(item.id)}>编辑</Button>
-                <Button type="link" onClick={() => this.deleteBlog(item.id)}>删除</Button>
+                <Popconfirm
+                  title="您确定要删除吗?"
+                  onConfirm={() => this.deleteBlog(item.id)}
+                  okText="确定"
+                  cancelText="取消"
+                >
+                  <Button type="link">删除</Button>
+                </Popconfirm>
               </div>
             </div>
             <div styleName="title" onClick={() => this.blogDetail(item.id)}>{item.title}</div>

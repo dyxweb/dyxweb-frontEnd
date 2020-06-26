@@ -4,7 +4,7 @@
 import React, { Component } from 'react';
 import CSSModules from 'react-css-modules';
 import _ from 'lodash';
-import { Table, Button, Input, message } from 'antd';
+import { Table, Button, Input, message, Popconfirm } from 'antd';
 import request from 'utils/request';
 import styles from './index.less';
 
@@ -83,13 +83,14 @@ export default class StudentList extends Component {
       >
         编辑
       </Button>
-      {/* 暂时隐藏删除按钮，保留所有学生信息，用于后续营销，有学生状态来分辨 */}
-      <Button
-        type="link"
-        onClick={() => this.deleteStudent(record.id)}
+      <Popconfirm
+        title="您确定要删除吗?"
+        onConfirm={() => this.deleteStudent(record.id)}
+        okText="确定"
+        cancelText="取消"
       >
-        删除
-      </Button>
+        <Button type="link">删除</Button>
+      </Popconfirm>
     </span>
   )
 

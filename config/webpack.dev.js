@@ -15,7 +15,7 @@ module.exports = merge(common,{
   mode: 'development',
   plugins: [
     new webpack.DefinePlugin({
-      'QUERYHOST': JSON.stringify('http://localhost:7001'),
+      'QUERYHOST': JSON.stringify('http://localhost:7001/api'),
     }) // 定义全局的变量(一般用于区分生产环境和开发环境)
   ]
 })
