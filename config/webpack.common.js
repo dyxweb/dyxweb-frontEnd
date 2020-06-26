@@ -1,5 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
   entry: "./src/index.js",
@@ -22,7 +23,10 @@ module.exports = {
       },
       {
         test: /.css$/,
-        use: ['cache-loader', 'style-loader', 'css-loader', 'postcss-loader'] // 需要用的loader，确定的顺序，调用loader是从右往左编译的
+        use: ExtractTextPlugin.extract({ // 调用分离插件内的extract方法
+          fallback: 'style-loader', // 相当于回滚，经postcss-loader和css-loader处理过的css最终再经过style-loader处理
+          use: ['css-loader', 'postcss-loader']
+        })
       },
       {
         test: /.less$/,
@@ -72,5 +76,6 @@ module.exports = {
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
+    new ExtractTextPlugin('index.css') // 将css分离到/dist文件夹下的css文件夹中的index.css
   ]
 }
