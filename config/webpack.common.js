@@ -1,12 +1,13 @@
 const path = require('path');
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
 
 module.exports = {
   entry: "./src/index.js",
   output: {
     path: path.resolve(__dirname, '../public'),
-    filename: "bundle.js"
+    filename: "index.js"
   },
   module: {
     rules: [
@@ -76,6 +77,7 @@ module.exports = {
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
-    new ExtractTextPlugin('index.css') // 将css分离到/dist文件夹下的css文件夹中的index.css
+    new ExtractTextPlugin('index.css'), // 将css分离到/dist文件夹下的css文件夹中的index.css
+    new HardSourceWebpackPlugin(),
   ]
 }
