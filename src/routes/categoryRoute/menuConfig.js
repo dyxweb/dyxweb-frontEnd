@@ -1,3 +1,6 @@
+/**
+ * 类目方法相关的menu配置
+ */
 export default [
   { key: '/category/func/generateTree', label: 'generateTree' },
   { key: '/category/func/mapCategoryData', label: 'mapCategoryData' },

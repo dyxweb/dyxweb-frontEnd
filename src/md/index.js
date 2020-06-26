@@ -1,3 +1,6 @@
+/**
+ * 输出所有markdown方法
+ */
 import generateTree from './generateTree.md';
 import mapCategoryData from './mapCategoryData.md';
 import filterCategoryData from './filterCategoryData.md';

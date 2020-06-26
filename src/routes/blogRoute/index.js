@@ -14,7 +14,7 @@ export default class BlogRoute extends Component {
     return (
       <Fragment>
         <LeftNav menuConfig={menuConfig} />
-        <div  className="right-content">
+        <div className="right-content">
           <Switch>
             {routeConfig.partScreen.map((item, key) => (
               <AuthRouter key={key} {...item} />

@@ -1,6 +1,9 @@
-import React, { Component, Fragment } from 'react';
+/**
+ * 整体路由配置
+ */
+import React, { Component } from 'react';
 import CSSModules from 'react-css-modules';
-import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 import Header from 'containers/header';
 import BlogRoute from './blogRoute';
 import CategoryRoute from './categoryRoute';

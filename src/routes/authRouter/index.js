@@ -14,6 +14,7 @@ const mapStateToProps = state => ({
 export default class AuthRouter extends Component {
   render() {
     const { routePermission,  permission } = this.props;
+    // 没有配置权限或者设置normal权限或者配置的权限等于当前用户的权限类型表示有权限
     const hasPermission = !routePermission || routePermission === 'normal' || routePermission === permission;
     // 判断是否有该页面权限，无权限跳转到category页面
     if(hasPermission) {

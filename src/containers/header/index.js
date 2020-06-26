@@ -26,7 +26,7 @@ export default class Header extends Component {
     loginVisible: false, // 登录的弹窗的显示控制
   }
 
-  // 切换注册弹窗的显示
+  // 切换登录弹窗的显示
   toggleVisible = () => {
     const { loginVisible } = this.state;
     this.setState({
@@ -48,9 +48,9 @@ export default class Header extends Component {
     const firstPath = pathname.split('/')[1];
     // 选中的顶部导航的key
     let activedTopNav = ['student', 'teacher'].includes(firstPath) ? 'trainning' : firstPath || 'blog';
-    // 根据权限过滤要显示的menu
+    // 根据权限过滤要显示的menu(没有配置权限或者设置normal权限或者配置的权限等于当前用户的权限类型表示有权限)
     const filterMenu = menuConfig.filter(item => !item.permission || item.permission === 'normal' || item.permission === permission);
-    
+
     return (
       <Fragment>
         <div styleName='header'>
@@ -64,8 +64,8 @@ export default class Header extends Component {
               ))}
             </Menu>
             {isLogin ?
-              <div onClick={this.logout} styleName="logout" >logout</div> :
-              <i className="iconfont icon-admin" onClick={this.toggleVisible} styleName="login" />
+              <i className="iconfont icon-tuichudenglu" styleName="login" onClick={this.logout} /> :
+              <i className="iconfont icon-admin" styleName="login" onClick={this.toggleVisible} />
             }
           </div>
         </div>
