@@ -8,10 +8,11 @@ import { connect } from 'react-redux';
 import CSSModules from 'react-css-modules';
 import Login from '../login';
 import menuConfig from './menuConfig';
+import { delCookie } from 'utils/cookie';
 import styles from './index.less';
 
 const mapStateToProps = state => ({
-  isLogin: state.loginStore.islogin, // 是否登录
+  isLogin: state.loginStore.isLogin, // 是否登录
   permission: state.loginStore.permission, // 登录人的权限
 })
 const mapDispatchToProps = dispatch => ({
@@ -39,6 +40,8 @@ export default class Header extends Component {
     this.props.dispatch({
       type: 'logout',
     });
+    // 清除是否登录的缓存
+    delCookie('islogin');
     message.success('退出登录成功');
   }
 

@@ -7,7 +7,7 @@ import moment from 'moment';
 import { Icon, Form, Input, Button, Checkbox, message } from 'antd';
 import { connect } from 'react-redux';
 import request from 'utils/request';
-import { setCookie, getCookie, delCookie } from 'utils/cookie'
+import { setCookie, getCookie, delCookie } from 'utils/cookie';
 import { changePermission } from '../../redux/login/actions';
 import styles from './index.less';
 
@@ -50,6 +50,7 @@ export default class Login extends Component {
             this.props.dispatch(changePermission(_.get(res, 'data.permission') || 'normal'));
             message.success('登陆成功');
             this.props.colseDialogFunc();
+            setCookie("islogin", 1, 3);
             // 记住用户名
             setCookie("name", values.name, 7);
             // 如果选择记住密码则保存密码

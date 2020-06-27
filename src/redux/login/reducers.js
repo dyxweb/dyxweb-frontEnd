@@ -1,14 +1,15 @@
+import { getCookie } from 'utils/cookie';
 const initState = {
-  islogin: false,
+  isLogin: Boolean(getCookie('islogin')),
   permission: 'noraml',
 }
 
 export const loginStore = (state = initState, action) => {
   switch (action.type) {
     case 'login':
-      return { ...state, islogin: true };
+      return { ...state, isLogin: true };
     case 'logout':
-      return { ...state, islogin: false, permission: 'normal' };
+      return { ...state, isLogin: false, permission: 'normal' };
     case 'change_permission':
       return { ...state, permission: action.permission };
     default:

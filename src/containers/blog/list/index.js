@@ -3,6 +3,7 @@
  */
 import React, { Component } from 'react';
 import CSSModules from 'react-css-modules';
+import { connect } from 'react-redux';
 import { Button, Tabs, message, Popconfirm } from 'antd';
 import moment from 'moment';
 import request from 'utils/request';
@@ -11,6 +12,11 @@ import styles from './index.less';
 
 const { TabPane } = Tabs;
 
+const mapStateToProps = state => ({
+  permission: state.loginStore.permission, // 登录人的权限
+})
+
+@connect(mapStateToProps, null)
 @CSSModules(styles)
 export default class BlogList extends Component {
   state = {
@@ -81,11 +87,13 @@ export default class BlogList extends Component {
   }
   render() {
     const { blogData, tagData } = this.state;
+    const { permission } = this.props;
+    const canOpertion = permission === 'manager';
     return (
       <div styleName="blog-list">
         {_.isEmpty(tagData) || <Tabs
           onChange={this.onTagChange}
-          tabBarExtraContent={<Button onClick={this.addBlog}>添加文章</Button>}
+          tabBarExtraContent={canOpertion ? <Button onClick={this.addBlog}>添加文章</Button> : null}
         >
           {tagData.map(item => (
             <TabPane tab={item.label} key={item.value} />
@@ -99,7 +107,7 @@ export default class BlogList extends Component {
                 <span styleName="tag">{item.tag}</span>
                 <span>{moment(item.createTime).format('YYYY-MM-DD')}</span>
               </div>
-              <div styleName="right-operation">
+              {canOpertion && <div styleName="right-operation">
                 <Button type="link" onClick={() => this.editBlog(item.id)}>编辑</Button>
                 <Popconfirm
                   title="您确定要删除吗?"
@@ -109,7 +117,7 @@ export default class BlogList extends Component {
                 >
                   <Button type="link">删除</Button>
                 </Popconfirm>
-              </div>
+              </div>}
             </div>
             <div styleName="title" onClick={() => this.blogDetail(item.id)}>{item.title}</div>
           </div>

@@ -20,11 +20,13 @@ export default {
       exact: true,
       path: '/blog/add',
       render: props => <BlogOperation {...props} operationType="add" />,
+      routePermission: 'manager',
     },
     {
       exact: true,
       path: '/blog/:blogId/edit',
       render: props => <BlogOperation {...props} operationType='edit' />,
+      routePermission: 'manager',
     },
     {
       exact: true,
