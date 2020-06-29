@@ -5,7 +5,7 @@ export const setCookie = (cname, cvalue, exdays) => {
   var d = new Date();
   d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
   var expires = "expires=" + d.toGMTString();
-  document.cookie = `${cname}=${cvalue}; ${expires}`;
+  document.cookie = `${cname}=${cvalue}; ${expires}; path=/`;
 }
 
 export const getCookie = cname => {
@@ -25,7 +25,7 @@ export const delCookie = cname => {
   exp.setTime(exp.getTime() - 1)
   var cval = getCookie(cname)
   if(cval !== null)
-  document.cookie = `${cname}=${cval};expires=${exp.toGMTString()}`;
+  document.cookie = `${cname}=${cval};expires=${exp.toGMTString()}; path=/`;
 }
 
 export default { setCookie, getCookie, delCookie };

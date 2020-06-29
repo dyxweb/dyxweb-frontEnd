@@ -2,6 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   entry: "./src/index.js",
@@ -78,6 +79,14 @@ module.exports = {
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
     new ExtractTextPlugin('index.css'), // 将css分离到/dist文件夹下的css文件夹中的index.css
-    new HardSourceWebpackPlugin(),
+    new HardSourceWebpackPlugin({
+      cachePrune: {
+        sizeThreshold: 300 * 1024 * 1024, // 总缓存文件大于300M时才会自动删除过时的缓存文件
+      },
+    }),
+    new HtmlWebpackPlugin({
+      filename: 'index.html', // 配置输出文件名和路径
+      template: path.join(__dirname, "../template/index.html") // 配置文件模板
+    })
   ]
 }
