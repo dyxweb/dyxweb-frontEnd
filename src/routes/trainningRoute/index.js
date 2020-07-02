@@ -2,7 +2,7 @@
  * 培训相关的路由
  */
 import React, { Component, Fragment } from 'react';
-import { Switch } from 'react-router-dom';
+import { Switch, Redirect } from 'react-router-dom';
 import LeftNav from 'components/leftNav';
 import AuthRouter from '../authRouter';
 import routeConfig from './routeConfig';
@@ -28,6 +28,7 @@ export default class TrainningRoute extends Component {
   render() {
     return (
       <Switch>
+        <Redirect exact from="/trainning" to="/trainning/student" />
         {routeConfig.allScreen.map((item, key) => (
           <AuthRouter key={key} {...item} />
         ))}
