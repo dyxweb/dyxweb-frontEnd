@@ -1,7 +1,7 @@
 import { getCookie } from 'utils/cookie';
 const initState = {
   isLogin: Boolean(getCookie('islogin')),
-  permission: 'noraml',
+  permission: '',
 }
 
 export const loginStore = (state = initState, action) => {

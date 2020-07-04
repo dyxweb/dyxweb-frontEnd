@@ -1,44 +1,23 @@
-.add-blog {
-  width: 100%;
-  .title {
+.blog-operation {
+  width: 80%;
+  margin: 0 auto;
+  .top-des {
     display: flex;
-    align-items: center;
+    justify-content: space-between;
+    margin: 24px 0;
+    .des {
+      font-size: 24px;
+      font-weight: 600;
+    }
+  }
+
+  .title {
+    margin-bottom: 24px;
     :global {
       .ant-input {
         height: 48px;
         font-size: 24px;
         outline: none;
-      }
-    }
-  }
-  .content {
-    display: flex;
-    :global {
-      .ant-input {
-        height: calc(100vh - 96px);
-        border: 1px solid #eee;
-        width: 50%;
-        font-size: 12px;
-        color: #000;
-        outline: none;
-      }
-    }
-    .display-box {
-      padding: 4px 11px;
-      height: calc(100vh - 96px);
-      overflow-y: auto;
-      border: 1px solid #eee;
-      width: 50%;
-      word-break: break-word;
-      pre{
-        background-color: #f6f8fa;
-        color:#000;
-        padding:8px;
-      }
-      blockquote{
-        border-left:4px solid #dfe2e5;
-        padding-left: 8px;
-        line-height:24px;
       }
     }
   }

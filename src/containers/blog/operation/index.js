@@ -1,23 +1,20 @@
-/**
- * 文章添加页面
- */
-import React, { Component } from 'react';
-import CSSModules from 'react-css-modules';
-import showdown from 'showdown';
+import React from 'react';
+import _ from 'lodash';
 import moment from 'moment';
 import { Form, Input, Button, Tag, Modal, message } from 'antd';
+import { Editor } from '@tinymce/tinymce-react';
+import CSSModules from 'react-css-modules';
 import request from 'utils/request';
 import blogTags from 'constants/blog';
 import styles from './index.less';
 
-const converter = new showdown.Converter();
 const { CheckableTag } = Tag;
 
 @Form.create(BlogOperation)
 @CSSModules(styles)
-export default class BlogOperation extends Component {
+export default class BlogOperation extends React.Component {
   state = {
-    content: '', // 内容
+    content: '', // 富文本内容
     checkedTag: '', // 选择的标签
     dialogVisible: false, // dialog的显示控制
   }
@@ -32,7 +29,6 @@ export default class BlogOperation extends Component {
           const data = res.data;
           this.props.form.setFieldsValue({
             title: data.title,
-            content: data.content,
           });
           this.setState({
             content: data.content,
@@ -43,16 +39,11 @@ export default class BlogOperation extends Component {
     }
   }
 
-  // 内容的修改
-  contentChange = e => {
-    this.setState({ content: e.target.value })
-  }
-
-  // 控制dialog显示隐藏
-  toggleDialogVisible = visible => {
+  // 富文本内容改变
+  handleEditorChange = content => {
     this.setState({
-      dialogVisible: visible,
-    })
+      content,
+    });
   }
 
   // 文章标签的选择
@@ -62,11 +53,6 @@ export default class BlogOperation extends Component {
     })
   }
 
-  // 取消(回到列表页)
-  cancel = () => {
-    this.props.history.push('/blog');
-  }
-
   // 接口保存文章
   saveBlog = info => {
     const { operationType } = this.props;
@@ -74,14 +60,14 @@ export default class BlogOperation extends Component {
     request.post(requestUrl, info).then(res => {
       if (res && res.success) {
         message.success(operationType === 'add' ? '添加成功' : '编辑成功');
-        this.cancel();
+        this.back();
       }
     })
   }
 
   // 保存内容
   handleSubmit = () => {
-    const { checkedTag } = this.state;
+    const { checkedTag, content } = this.state;
     if (!checkedTag) {
       message.error('请选择标签');
       return false;
@@ -92,6 +78,7 @@ export default class BlogOperation extends Component {
         const { blogId } = this.props.match.params;
         const params = _.cloneDeep(values);
         params.tag = checkedTag;
+        params.content = content;
         params.createTime = moment().format('YYYY-MM-DD HH:mm:ss');
         if (operationType === 'edit') {
           params.id = blogId;
@@ -101,39 +88,76 @@ export default class BlogOperation extends Component {
     });
   }
 
+  // 点击保存按钮
+  onSave = () => {
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        console.log(this.state.content)
+        if (!this.state.content) {
+          message.error('请输入文章内容');
+          return;
+        } else {
+          this.toggleDialogVisible();
+        }
+      }
+    })
+  }
+
+  // 控制选择文章标签的Dialog显示隐藏
+  toggleDialogVisible = () => {
+    const { dialogVisible } = this.state;
+    this.setState({
+      dialogVisible: !dialogVisible,
+    })
+  }
+
+  // 回到列表页
+  back = () => {
+    this.props.history.push('/blog');
+  }
+
   render() {
-    const { content, checkedTag, dialogVisible } = this.state;
     const { getFieldDecorator } = this.props.form;
+    const { dialogVisible, content, checkedTag } = this.state;
     return (
-      <div styleName="add-blog">
+      <div styleName="blog-operation">
+        <div styleName="top-des">
+          <div styleName="des">编辑文章</div>
+          <div>
+            <Button onClick={this.back}>返回博客列表</Button>
+            <Button type="primary" style={{ marginLeft: '12px' }} onClick={this.onSave}>保存</Button>
+          </div>
+        </div>
         <div styleName="title">
           {getFieldDecorator('title', {
-              rules: [
-                { required: true, message: '请填写标题' },
-              ],
-            })(<Input placeholder="请输入标题" />)}
-            <Button
-              type="primary"
-              style={{ marginLeft: '6px' }}
-              onClick={() => this.toggleDialogVisible(true)}
-            >
-              发布
-            </Button>
-            <Button onClick={this.cancel} style={{ marginLeft: '6px' }}>取消</Button>
+            rules: [
+              { required: true, message: '请输入文章标题' },
+            ],
+          })(<Input placeholder="请输入标题" />)}
         </div>
-        <div styleName="content">
-          {getFieldDecorator('content', {
-              rules: [
-                { required: true, message: '请填写内容' },
-              ],
-            })(<Input.TextArea style={{ resize: 'none' }} onChange={this.contentChange} />)}
-          <div dangerouslySetInnerHTML = {{ __html:converter.makeHtml(content) }} styleName="display-box" />
-        </div>
+        <Editor
+          value={content}
+          init={{
+            height: 500,
+            menubar: false,
+            plugins: [
+              'advlist autolink lists link image charmap print preview anchor',
+              'searchreplace visualblocks code fullscreen',
+              'insertdatetime media table paste code help wordcount'
+            ],
+            toolbar:
+              'undo redo | formatselect | bold italic backcolor | \
+              alignleft aligncenter alignright alignjustify | \
+              bullist numlist outdent indent | | preview'
+          }}
+          onEditorChange={this.handleEditorChange}
+          apiKey="spu6lepvjcgzpdnxdi9jj9f36k3lb3a0we7ikzl4rskqdhzs"
+        />
         <Modal
-          title="请选择标签"
+          title="请选择文章标签"
           visible={dialogVisible}
           onOk={this.handleSubmit}
-          onCancel={() => this.toggleDialogVisible(false)}
+          onCancel={this.toggleDialogVisible}
         >
           {blogTags.map(item => (
             <CheckableTag
@@ -146,6 +170,7 @@ export default class BlogOperation extends Component {
           ))}
         </Modal>
       </div>
-    )
+      
+    );
   }
 }

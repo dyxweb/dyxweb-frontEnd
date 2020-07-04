@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { withRouter, Route, Redirect } from 'react-router-dom';
 
 const mapStateToProps = state => ({
+  isLogin: state.loginStore.isLogin, // 是否登录
   permission: state.loginStore.permission, // 登录人的权限
 })
 
@@ -13,10 +14,13 @@ const mapStateToProps = state => ({
 @connect(mapStateToProps, null)
 export default class AuthRouter extends Component {
   render() {
-    const { routePermission,  permission } = this.props;
+    const { routePermission, permission, isLogin } = this.props;
     // 没有配置权限或者设置normal权限或者配置的权限等于当前用户的权限类型表示有权限
     const hasPermission = !routePermission || routePermission === 'normal' || routePermission === permission;
     // 判断是否有该页面权限，无权限跳转到没有权限的页面
+    if (isLogin && !permission) {
+      return <div>页面加载中</div>
+    }
     if(hasPermission) {
       return <Route {...this.props}/>;
     } else {

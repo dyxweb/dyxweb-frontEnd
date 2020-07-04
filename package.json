@@ -38,6 +38,7 @@
     "webpack-merge": "^4.2.2"
   },
   "dependencies": {
+    "@tinymce/tinymce-react": "^3.6.0",
     "antd": "^3.8.4",
     "highlight.js": "^10.0.3",
     "lodash": "^4.17.11",
