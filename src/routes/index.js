@@ -45,9 +45,9 @@ export default class App extends Component {
         <div styleName="all-content">
           <Switch>
             <Redirect exact from="/" to="/category" />
-            <Route path="/blog" component={BlogRoute} />
-            <Route path="/category" component={CategoryRoute} />
-            <Route path="/trainning" component={TrainningRoute} />
+            <BlogRoute path="/blog" />
+            <CategoryRoute path="/category" />
+            <TrainningRoute path="/trainning" />
             <Route path="/nopermission" component={NoPermission} />
           </Switch>
         </div>

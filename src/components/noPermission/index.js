@@ -36,7 +36,7 @@ export default class NoPermission extends Component {
     const { second } = this.state;
     return (
       <div styleName="no-permission">
-        {`您暂未此页面权限，请登录后再访问，页面将于${second}秒后跳转`}
+        {`您暂未此页面权限，请登录后再访问，页面将于${second}秒后跳转到类目方法页面。`}
       </div>
     )
   }
