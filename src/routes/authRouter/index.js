@@ -19,7 +19,7 @@ export default class AuthRouter extends Component {
     // 没有配置权限或者设置normal权限或者配置的权限等于当前用户的权限类型表示有权限
     const hasPermission = !routePermission || routePermission === 'normal' || routePermission === permission;
     // 判断是否有该页面权限，无权限跳转到没有权限的页面
-    if (isLogin && !permission) {
+    if (isLogin && !permission && routePermission === 'manager') {
       return (
         <Spin tip="页面加载中...">
           <div style={{ width: '100%', height: 'calc(100vh - 60px)' }} />

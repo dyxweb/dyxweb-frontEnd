@@ -4,10 +4,12 @@
 import React, { Component, Fragment } from 'react';
 import CSSModules from 'react-css-modules';
 import { message, Popconfirm, Tag } from 'antd';
+import hljs from 'highlight.js'
 import { connect } from 'react-redux';
 import showdown from 'showdown';
 import moment from 'moment';
 import request from 'utils/request';
+import 'styles/highlight.css';
 import styles from './index.less';
 
 const converter = new showdown.Converter();
@@ -28,9 +30,15 @@ export default class BlogDetail extends Component {
       if (res && res.success) {
         this.setState({
           blogDetail: res.data,
-        })  
+        }, () => this.hightLight())  
       }
     })
+  }
+
+  // 代码高亮
+  hightLight = () => {
+    const preTags = document.getElementById('blog-content').getElementsByTagName('pre');
+    Array.from(preTags).forEach(item => hljs.highlightBlock(item));
   }
 
   // 回到列表页
@@ -83,7 +91,7 @@ export default class BlogDetail extends Component {
             </div>
           </div>
           <div styleName="title">{blogDetail.title}</div>
-          <div id="content" styleName="content" dangerouslySetInnerHTML = {{ __html:converter.makeHtml(blogDetail.content) }} />
+          <div id="blog-content" styleName="content" dangerouslySetInnerHTML = {{ __html:converter.makeHtml(blogDetail.content) }} />
         </div>
       </div>
     )

@@ -6,7 +6,7 @@ import CSSModules from 'react-css-modules';
 import hljs from 'highlight.js'
 import _ from 'lodash';
 import mdData from 'md/index.js';
-import './highlight.css';
+import 'styles/highlight.css';
 import styles from './index.less';
 
 @CSSModules(styles)
