@@ -1,17 +1,16 @@
 /**
  * 文章列表页面
  */
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import CSSModules from 'react-css-modules';
 import { connect } from 'react-redux';
-import { Button, Tabs, message, Popconfirm } from 'antd';
+import { Button, message, Popconfirm, Input, Tag } from 'antd';
+import _ from 'lodash';
 import moment from 'moment';
 import request from 'utils/request';
-import _ from 'lodash';
 import styles from './index.less';
 
-const { TabPane } = Tabs;
-
+const { Search } = Input;
 const mapStateToProps = state => ({
   permission: state.loginStore.permission, // 登录人的权限
 })
@@ -21,18 +20,15 @@ const mapStateToProps = state => ({
 export default class BlogList extends Component {
   state = {
     blogData: [], // 文章数据
-    tagData: [], // 文章标签数据
   }
 
   componentDidMount() {
     this.getBlogList();
-    this.getBlogTagList();
   }
 
   // 获取文章列表
-  getBlogList = tag => {
-    const params = tag ? { tag: tag } : {};
-    request.get(`${QUERYHOST}/getBlogList`, params).then(res => {
+  getBlogList = searchValue => {
+    request.get(`${QUERYHOST}/getBlogList`, searchValue ? { searchValue } : {}).then(res => {
       if (res && res.success) {
         this.setState({
           blogData: res.data || [],
@@ -41,24 +37,9 @@ export default class BlogList extends Component {
     })
   }
 
-  // 获取文章标签列表
-  getBlogTagList = () => {
-    request.get(`${QUERYHOST}/getTagList`).then(res => {
-      if (res && res.success) {
-        const tags = _.uniq((Array.isArray(res.data) ? res.data : []).map(item => item.tag));
-        // 直接用于tab数据
-        const tagData = tags.map(item => ({ value: item, label: item }));
-        tagData.unshift({ label: '所有', value: 'all' });
-        this.setState({
-          tagData,
-        })
-      }
-    })
-  }
-
-  // tab标签切换
-  onTagChange = value => {
-    this.getBlogList(value === 'all' ? false : value);
+  // 搜索
+  onSearch = value => {
+    this.getBlogList(value);
   }
 
   // 跳转到添加文章页面
@@ -85,44 +66,43 @@ export default class BlogList extends Component {
       }
     })
   }
+
   render() {
-    const { blogData, tagData } = this.state;
+    const { blogData } = this.state;
     const { permission } = this.props;
     const canOpertion = permission === 'manager';
     return (
       <div styleName="blog-list">
-        {_.isEmpty(tagData) || <Tabs
-          onChange={this.onTagChange}
-          tabBarExtraContent={canOpertion ? <Button onClick={this.addBlog}>添加文章</Button> : null}
-        >
-          {tagData.map(item => (
-            <TabPane tab={item.label} key={item.value} />
-          ))}
-        </Tabs>}
-        <div>
+        <div styleName="top-operation">
+          <Search
+            placeholder="可根据文章名称进行搜索"
+            onSearch={this.onSearch}
+            style={{ width: '300px' }}
+          />
+          {canOpertion && <Button type="primary" onClick={this.addBlog}>添加文章</Button>}
+        </div>
         {blogData.map((item, index) => (
-          <div styleName="blog-item" key={index}>
-            <div styleName="top-des">
-              <div styleName="des">
-                <span styleName="tag">{item.tag}</span>
-                <span>{moment(item.createTime).format('YYYY-MM-DD')}</span>
-              </div>
-              {canOpertion && <div styleName="right-operation">
-                <Button type="link" onClick={() => this.editBlog(item.id)}>编辑</Button>
+          <div styleName="blog-item" key={index} onClick={() => this.blogDetail(item.id)}>
+            <div styleName="title-box">
+              <div styleName="title">{item.title}</div>
+              <div styleName="time">{moment(item.update_date).format('YYYY-MM-DD HH:mm:ss')}</div>
+            </div>
+            <div styleName="bottom-operation" onClick={e => e.stopPropagation()}>
+              <Tag color="blue">{item.tags}</Tag>
+              {canOpertion && <Fragment>
+                <span styleName="button" onClick={() => this.editBlog(item.id)}>编辑</span>
                 <Popconfirm
                   title="您确定要删除吗?"
                   onConfirm={() => this.deleteBlog(item.id)}
                   okText="确定"
                   cancelText="取消"
                 >
-                  <Button type="link">删除</Button>
+                  <span type="link" styleName="button">删除</span>
                 </Popconfirm>
-              </div>}
+              </Fragment>}
             </div>
-            <div styleName="title" onClick={() => this.blogDetail(item.id)}>{item.title}</div>
           </div>
         ))}
-        </div>
       </div>
     )
   }

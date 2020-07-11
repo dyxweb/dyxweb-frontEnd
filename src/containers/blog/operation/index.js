@@ -1,8 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
-import moment from 'moment';
 import { Form, Input, Button, Tag, Modal, message } from 'antd';
-import { Editor } from '@tinymce/tinymce-react';
 import CSSModules from 'react-css-modules';
 import request from 'utils/request';
 import blogTags from 'constants/blog';
@@ -14,7 +12,6 @@ const { CheckableTag } = Tag;
 @CSSModules(styles)
 export default class BlogOperation extends React.Component {
   state = {
-    content: '', // 富文本内容
     checkedTag: '', // 选择的标签
     dialogVisible: false, // dialog的显示控制
   }
@@ -29,21 +26,14 @@ export default class BlogOperation extends React.Component {
           const data = res.data;
           this.props.form.setFieldsValue({
             title: data.title,
+            content: data.content,
           });
           this.setState({
-            content: data.content,
-            checkedTag: data.tag,
+            checkedTag: data.tags,
           })
         }
       })
     }
-  }
-
-  // 富文本内容改变
-  handleEditorChange = content => {
-    this.setState({
-      content,
-    });
   }
 
   // 文章标签的选择
@@ -67,7 +57,7 @@ export default class BlogOperation extends React.Component {
 
   // 保存内容
   handleSubmit = () => {
-    const { checkedTag, content } = this.state;
+    const { checkedTag } = this.state;
     if (!checkedTag) {
       message.error('请选择标签');
       return false;
@@ -77,9 +67,7 @@ export default class BlogOperation extends React.Component {
         const { operationType } = this.props;
         const { blogId } = this.props.match.params;
         const params = _.cloneDeep(values);
-        params.tag = checkedTag;
-        params.content = content;
-        params.createTime = moment().format('YYYY-MM-DD HH:mm:ss');
+        params.tags = checkedTag;
         if (operationType === 'edit') {
           params.id = blogId;
         }
@@ -92,13 +80,7 @@ export default class BlogOperation extends React.Component {
   onSave = () => {
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        console.log(this.state.content)
-        if (!this.state.content) {
-          message.error('请输入文章内容');
-          return;
-        } else {
-          this.toggleDialogVisible();
-        }
+        this.toggleDialogVisible();
       }
     })
   }
@@ -118,7 +100,7 @@ export default class BlogOperation extends React.Component {
 
   render() {
     const { getFieldDecorator } = this.props.form;
-    const { dialogVisible, content, checkedTag } = this.state;
+    const { dialogVisible, checkedTag } = this.state;
     return (
       <div styleName="blog-operation">
         <div styleName="top-des">
@@ -135,24 +117,15 @@ export default class BlogOperation extends React.Component {
             ],
           })(<Input placeholder="请输入标题" />)}
         </div>
-        <Editor
-          value={content}
-          init={{
-            height: 500,
-            menubar: false,
-            plugins: [
-              'advlist autolink lists link image charmap print preview anchor',
-              'searchreplace visualblocks code fullscreen',
-              'insertdatetime media table paste code help wordcount'
+        {getFieldDecorator('content', {
+            rules: [
+              { required: true, message: '请输入文章内容' },
             ],
-            toolbar:
-              'undo redo | formatselect | bold italic backcolor | \
-              alignleft aligncenter alignright alignjustify | \
-              bullist numlist outdent indent | | preview'
-          }}
-          onEditorChange={this.handleEditorChange}
-          apiKey="spu6lepvjcgzpdnxdi9jj9f36k3lb3a0we7ikzl4rskqdhzs"
-        />
+          })(<Input.TextArea
+            placeholder="请输入文章内容"
+            autoSize={{ minRows: 24, maxRows: 24 }}
+          />)
+        }
         <Modal
           title="请选择文章标签"
           visible={dialogVisible}

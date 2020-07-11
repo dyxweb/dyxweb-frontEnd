@@ -78,7 +78,7 @@ export default class Login extends Component {
           password: values.password,
           createTime: moment().format('YYYY-MM-DD HH:mm:ss'),
         }
-        request.post(`${QUERYHOST}//addUser`, params).then(res => {
+        request.post(`${QUERYHOST}/addUser`, params).then(res => {
           if (res && res.success) {
             message.success('注册成功');
             // 注册成功之后使用注册的用户信息赋值登录页面

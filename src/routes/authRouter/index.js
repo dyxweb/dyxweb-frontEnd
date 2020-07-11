@@ -4,6 +4,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Route, Redirect } from 'react-router-dom';
+import { Spin } from 'antd';
 
 const mapStateToProps = state => ({
   isLogin: state.loginStore.isLogin, // 是否登录
@@ -19,7 +20,11 @@ export default class AuthRouter extends Component {
     const hasPermission = !routePermission || routePermission === 'normal' || routePermission === permission;
     // 判断是否有该页面权限，无权限跳转到没有权限的页面
     if (isLogin && !permission) {
-      return <div>页面加载中</div>
+      return (
+        <Spin tip="页面加载中...">
+          <div style={{ width: '100%', height: 'calc(100vh - 60px)' }} />
+        </Spin>
+      )
     }
     if(hasPermission) {
       return <Route {...this.props}/>;

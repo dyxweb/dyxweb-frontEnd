@@ -1,22 +1,31 @@
 .blog-detail {
   margin: 0 auto;
   min-height: calc(100vh - 49px);
+  color: #00214c;
   .detail {
     height: 100%;
     background: #fff;
     width: 960px;
     margin: 0 auto;
     padding: 8px 24px;
-    .des {
-      margin-bottom: 8px;
-      .tag {
-        color: #b71ed7;
-        margin-right: 4px;
+    .operation {
+      display: flex;
+      justify-content: space-between;
+      line-height: 32px;
+      .time {
+        font-size: 13px;
+      }
+      .button {
+        font-size: 13px;
+        margin-right: 8px;
+        color: #1890ff;
+        cursor: pointer;
       }
     }
     .title {
-      font-size: 18px;
+      font-size: 16px;
       font-weight: 700;
+      margin: 12px 0;
     }
     .content {
       pre{
