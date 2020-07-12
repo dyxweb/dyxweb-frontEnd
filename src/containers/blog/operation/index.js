@@ -1,19 +1,24 @@
 import React from 'react';
 import _ from 'lodash';
+import hljs from 'highlight.js'
+import showdown from 'showdown';
 import { Form, Input, Button, Tag, Modal, message } from 'antd';
 import CSSModules from 'react-css-modules';
 import request from 'utils/request';
 import blogTags from 'constants/blog';
+import 'styles/highlight.css';
 import styles from './index.less';
 
 const { CheckableTag } = Tag;
+const converter = new showdown.Converter();
 
 @Form.create(BlogOperation)
 @CSSModules(styles)
 export default class BlogOperation extends React.Component {
   state = {
     checkedTag: '', // 选择的标签
-    dialogVisible: false, // dialog的显示控制
+    dialogVisible: false, // 标签dialog的显示控制
+    previewVisible: false, // 预览dialog的显示控制
   }
 
   componentDidMount() {
@@ -98,15 +103,38 @@ export default class BlogOperation extends React.Component {
     this.props.history.push('/blog');
   }
 
+  // 控制预览的Dialog显示隐藏
+  togglePreviewVisible = () => {
+    const { previewVisible } = this.state;
+    this.setState({
+      previewVisible: !previewVisible,
+    })
+  }
+
+  // 预览
+  preview = () => {
+    this.setState({
+      previewVisible: true,
+    }, () => {
+      if (document.getElementById('preview-content')) {
+        const preTags = document.getElementById('preview-content').getElementsByTagName('pre');
+        (Array.from(preTags) || []).forEach(item => hljs.highlightBlock(item));
+      } else {
+        this.preview();
+      }
+    })
+  }
+
   render() {
-    const { getFieldDecorator } = this.props.form;
-    const { dialogVisible, checkedTag } = this.state;
+    const { getFieldDecorator, getFieldValue } = this.props.form;
+    const { dialogVisible, checkedTag, previewVisible } = this.state;
     return (
       <div styleName="blog-operation">
         <div styleName="top-des">
           <div styleName="des">编辑文章</div>
           <div>
             <Button onClick={this.back}>返回博客列表</Button>
+            <Button onClick={this.preview} style={{ marginLeft: '12px' }}>预览</Button>
             <Button type="primary" style={{ marginLeft: '12px' }} onClick={this.onSave}>保存</Button>
           </div>
         </div>
@@ -141,6 +169,17 @@ export default class BlogOperation extends React.Component {
               {item}
             </CheckableTag>
           ))}
+        </Modal>
+        <Modal
+          title="预览"
+          visible={previewVisible}
+          onCancel={this.togglePreviewVisible}
+          footer={<Button type="primary" onClick={this.togglePreviewVisible}>关闭</Button>}
+        >
+          <div styleName="preview">
+            <div styleName="title">{getFieldValue('title')}</div>
+            <div id="preview-content" styleName="content" dangerouslySetInnerHTML = {{ __html:converter.makeHtml(getFieldValue('content')) }} />
+          </div>
         </Modal>
       </div>
       

@@ -4,7 +4,7 @@
 import React, { Component, Fragment } from 'react';
 import CSSModules from 'react-css-modules';
 import { connect } from 'react-redux';
-import { Button, message, Popconfirm, Input, Tag } from 'antd';
+import { Button, message, Popconfirm, Input, Tag, Spin } from 'antd';
 import _ from 'lodash';
 import moment from 'moment';
 import request from 'utils/request';
@@ -20,6 +20,7 @@ const mapStateToProps = state => ({
 export default class BlogList extends Component {
   state = {
     blogData: [], // 文章数据
+    loading: false, // 接口loading状态
   }
 
   componentDidMount() {
@@ -28,10 +29,14 @@ export default class BlogList extends Component {
 
   // 获取文章列表
   getBlogList = searchValue => {
+    this.setState({
+      loading: true,
+    });
     request.get(`${QUERYHOST}/getBlogList`, searchValue ? { searchValue } : {}).then(res => {
       if (res && res.success) {
         this.setState({
           blogData: res.data || [],
+          loading: false,
         });
       }
     })
@@ -68,7 +73,7 @@ export default class BlogList extends Component {
   }
 
   render() {
-    const { blogData } = this.state;
+    const { blogData, loading } = this.state;
     const { permission } = this.props;
     const canOpertion = permission === 'manager';
     return (
@@ -81,28 +86,30 @@ export default class BlogList extends Component {
           />
           {canOpertion && <Button type="primary" onClick={this.addBlog}>添加文章</Button>}
         </div>
-        {blogData.map((item, index) => (
-          <div styleName="blog-item" key={index} onClick={() => this.blogDetail(item.id)}>
-            <div styleName="title-box">
-              <div styleName="title">{item.title}</div>
-              <div styleName="time">{moment(item.update_date).format('YYYY-MM-DD HH:mm:ss')}</div>
+        <Spin spinning={loading}>
+          {blogData.map((item, index) => (
+            <div styleName="blog-item" key={index} onClick={() => this.blogDetail(item.id)}>
+              <div styleName="title-box">
+                <div styleName="title">{item.title}</div>
+                <div styleName="time">{moment(item.update_date).format('YYYY-MM-DD HH:mm:ss')}</div>
+              </div>
+              <div styleName="bottom-operation" onClick={e => e.stopPropagation()}>
+                <Tag color="blue">{item.tags}</Tag>
+                {canOpertion && <Fragment>
+                  <span styleName="button" onClick={() => this.editBlog(item.id)}>编辑</span>
+                  <Popconfirm
+                    title="您确定要删除吗?"
+                    onConfirm={() => this.deleteBlog(item.id)}
+                    okText="确定"
+                    cancelText="取消"
+                  >
+                    <span type="link" styleName="button">删除</span>
+                  </Popconfirm>
+                </Fragment>}
+              </div>
             </div>
-            <div styleName="bottom-operation" onClick={e => e.stopPropagation()}>
-              <Tag color="blue">{item.tags}</Tag>
-              {canOpertion && <Fragment>
-                <span styleName="button" onClick={() => this.editBlog(item.id)}>编辑</span>
-                <Popconfirm
-                  title="您确定要删除吗?"
-                  onConfirm={() => this.deleteBlog(item.id)}
-                  okText="确定"
-                  cancelText="取消"
-                >
-                  <span type="link" styleName="button">删除</span>
-                </Popconfirm>
-              </Fragment>}
-            </div>
-          </div>
-        ))}
+          ))}
+        </Spin>
       </div>
     )
   }

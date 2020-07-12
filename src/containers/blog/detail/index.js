@@ -3,7 +3,7 @@
  */
 import React, { Component, Fragment } from 'react';
 import CSSModules from 'react-css-modules';
-import { message, Popconfirm, Tag } from 'antd';
+import { message, Popconfirm, Tag, Spin } from 'antd';
 import hljs from 'highlight.js'
 import { connect } from 'react-redux';
 import showdown from 'showdown';
@@ -21,15 +21,20 @@ const mapStateToProps = state => ({
 @CSSModules(styles)
 export default class BlogDetail extends Component {
   state = {
-    blogDetail: {},
+    blogDetail: {}, // blog详情信息
+    loading: false, // 接口loading状态
   }
 
   componentDidMount() {
     const { blogId } = this.props.match.params;
+    this.setState({
+      loading: true,
+    });
     request.get(`${QUERYHOST}/getBlogDetail`, { id: blogId }).then(res => {
       if (res && res.success) {
         this.setState({
           blogDetail: res.data,
+          loading: false,
         }, () => this.hightLight())  
       }
     })
@@ -38,7 +43,7 @@ export default class BlogDetail extends Component {
   // 代码高亮
   hightLight = () => {
     const preTags = document.getElementById('blog-content').getElementsByTagName('pre');
-    Array.from(preTags).forEach(item => hljs.highlightBlock(item));
+    (Array.from(preTags) || []).forEach(item => hljs.highlightBlock(item));
   }
 
   // 回到列表页
@@ -64,12 +69,13 @@ export default class BlogDetail extends Component {
   }
 
   render() {
-    const { blogDetail } = this.state;
+    const { blogDetail, loading } = this.state;
     const { permission } = this.props;
     const canOpertion = permission === 'manager';
     return (
       <div styleName="blog-detail">
-        <div styleName="detail">
+        <Spin spinning={loading}>
+          <div styleName="detail">
           <div styleName="operation">
             <div>
               <Tag color="blue">{blogDetail.tags}</Tag>
@@ -93,6 +99,7 @@ export default class BlogDetail extends Component {
           <div styleName="title">{blogDetail.title}</div>
           <div id="blog-content" styleName="content" dangerouslySetInnerHTML = {{ __html:converter.makeHtml(blogDetail.content) }} />
         </div>
+        </Spin>
       </div>
     )
   }
