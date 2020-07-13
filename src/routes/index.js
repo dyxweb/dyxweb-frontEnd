@@ -44,7 +44,7 @@ export default class App extends Component {
         <Header />
         <div styleName="all-content">
           <Switch>
-            <Redirect exact from="/" to="/category" />
+            <Redirect exact from="/" to="/blog" />
             <BlogRoute path="/blog" />
             <CategoryRoute path="/category" />
             <TrainningRoute path="/trainning" />

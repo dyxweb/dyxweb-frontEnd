@@ -5,11 +5,13 @@ const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  entry: "./src/index.js",
+  entry: {
+    main: "./src/index.js"
+  },
   output: {
     publicPath: '/',
     path: path.resolve(__dirname, '../public'),
-    filename: "index.js"
+    filename: '[name].[hash].js',
   },
   module: {
     rules: [

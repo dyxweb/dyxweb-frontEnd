@@ -23,6 +23,7 @@ export default class BlogDetail extends Component {
   state = {
     blogDetail: {}, // blog详情信息
     loading: false, // 接口loading状态
+    catalog: [], // 目录的内容
   }
 
   componentDidMount() {
@@ -42,8 +43,20 @@ export default class BlogDetail extends Component {
 
   // 代码高亮
   hightLight = () => {
-    const preTags = document.getElementById('blog-content').getElementsByTagName('pre');
+    const content = document.getElementById('blog-content');
+    const preTags = content.getElementsByTagName('pre');
     (Array.from(preTags) || []).forEach(item => hljs.highlightBlock(item));
+    const regHead = /^H\d$/;
+    let hTags = Array.from(content.children).filter(el => regHead.test(el.nodeName) && el.innerText && el.id);
+    hTags =  hTags.map(el => {
+      const index = el.nodeName[1];
+      return (
+        <a href={`#${el.id}`} styleName={`h${index}`} key={el.id} title={el.innerText}>{el.innerText}</a>
+      )
+    })
+    this.setState({
+      catalog: hTags,
+    })
   }
 
   // 回到列表页
@@ -69,38 +82,40 @@ export default class BlogDetail extends Component {
   }
 
   render() {
-    const { blogDetail, loading } = this.state;
+    const { blogDetail, loading, catalog } = this.state;
+    console.log(catalog)
     const { permission } = this.props;
     const canOpertion = permission === 'manager';
     return (
-      <div styleName="blog-detail">
-        <Spin spinning={loading}>
+        <div styleName="blog-detail">
           <div styleName="detail">
-          <div styleName="operation">
-            <div>
-              <Tag color="blue">{blogDetail.tags}</Tag>
-              <span styleName="time">{moment(blogDetail.update_date).format('YYYY-MM-DD HH:mm:ss')}</span>
+            <div styleName="operation">
+              <div>
+                <Tag color="blue">{blogDetail.tags}</Tag>
+                <span styleName="time">{moment(blogDetail.update_date).format('YYYY-MM-DD HH:mm:ss')}</span>
+              </div>
+              <div>
+                {canOpertion && <Fragment>
+                  <span styleName="button" onClick={this.editBlog}>编辑</span>
+                  <Popconfirm
+                    title="您确定要删除吗?"
+                    onConfirm={this.deleteBlog}
+                    okText="确定"
+                    cancelText="取消"
+                  >
+                    <span type="link" styleName="button">删除</span>
+                  </Popconfirm>
+                </Fragment>}
+                <span styleName="button" onClick={this.toList}>返回博客列表</span>
+              </div>
             </div>
-            <div>
-              {canOpertion && <Fragment>
-                <span styleName="button" onClick={this.editBlog}>编辑</span>
-                <Popconfirm
-                  title="您确定要删除吗?"
-                  onConfirm={this.deleteBlog}
-                  okText="确定"
-                  cancelText="取消"
-                >
-                  <span type="link" styleName="button">删除</span>
-                </Popconfirm>
-              </Fragment>}
-              <span styleName="button" onClick={this.toList}>返回博客列表</span>
-            </div>
+            <div styleName="title">{blogDetail.title}</div>
+            <div id="blog-content" styleName="content" dangerouslySetInnerHTML = {{ __html:converter.makeHtml(blogDetail.content) }} />
           </div>
-          <div styleName="title">{blogDetail.title}</div>
-          <div id="blog-content" styleName="content" dangerouslySetInnerHTML = {{ __html:converter.makeHtml(blogDetail.content) }} />
+          <div styleName="catalog">
+            {catalog}
+          </div>
         </div>
-        </Spin>
-      </div>
     )
   }
 }
