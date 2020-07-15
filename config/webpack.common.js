@@ -51,7 +51,7 @@ module.exports = {
       },
       {
         test: /\.(md)$/,
-        use: ['html-loader', 'markdown-loader'],
+        use: ['raw-loader'],
       },
       {
         test: /.(png|jpg|svg|gif)$/,
@@ -90,6 +90,6 @@ module.exports = {
     new HtmlWebpackPlugin({
       filename: 'index.html', // 配置输出文件名和路径
       template: path.join(__dirname, "../template/index.html") // 配置文件模板
-    })
+    }),
   ]
 }

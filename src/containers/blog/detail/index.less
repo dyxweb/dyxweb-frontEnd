@@ -1,12 +1,13 @@
 .blog-detail {
+  width: 90%;
   display: flex;
-  margin: 0 auto;
-  max-width: 960px;
+  justify-content: center;
   min-height: calc(100vh - 49px);
   color: #00214c;
   .detail {
     padding: 8px 24px;
-    width: 75%;
+    width: 100%;
+    max-width: 70%;
     .operation {
       display: flex;
       justify-content: space-between;
@@ -41,7 +42,10 @@
     }
   }
   .catalog {
-    width: 25%;
+    max-width: 20%;
+    position: absolute;
+    top: 60px;
+    right: 40px;
     padding-top: 56px;
     max-height: calc(100vh - 146px);
     overflow-y: auto;

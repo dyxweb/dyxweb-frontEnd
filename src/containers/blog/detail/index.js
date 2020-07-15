@@ -3,16 +3,14 @@
  */
 import React, { Component, Fragment } from 'react';
 import CSSModules from 'react-css-modules';
-import { message, Popconfirm, Tag, Spin } from 'antd';
-import hljs from 'highlight.js'
+import { message, Popconfirm, Tag } from 'antd';
 import { connect } from 'react-redux';
-import showdown from 'showdown';
+import ReactMarkdown from 'react-markdown';
 import moment from 'moment';
 import request from 'utils/request';
-import 'styles/highlight.css';
+import HighLightCode from 'components/highlightCode';
 import styles from './index.less';
 
-const converter = new showdown.Converter();
 const mapStateToProps = state => ({
   permission: state.loginStore.permission, // 登录人的权限
 })
@@ -44,10 +42,8 @@ export default class BlogDetail extends Component {
   // 代码高亮
   hightLight = () => {
     const content = document.getElementById('blog-content');
-    const preTags = content.getElementsByTagName('pre');
-    (Array.from(preTags) || []).forEach(item => hljs.highlightBlock(item));
     const regHead = /^H\d$/;
-    let hTags = Array.from(content.children).filter(el => regHead.test(el.nodeName) && el.innerText && el.id);
+    let hTags = Array.from(content.children).filter(el => regHead.test(el.nodeName) && el.innerText);
     hTags =  hTags.map(el => {
       const index = el.nodeName[1];
       return (
@@ -83,12 +79,11 @@ export default class BlogDetail extends Component {
 
   render() {
     const { blogDetail, loading, catalog } = this.state;
-    console.log(catalog)
     const { permission } = this.props;
     const canOpertion = permission === 'manager';
     return (
         <div styleName="blog-detail">
-          <div styleName="detail">
+          <div styleName="detail" >
             <div styleName="operation">
               <div>
                 <Tag color="blue">{blogDetail.tags}</Tag>
@@ -110,7 +105,14 @@ export default class BlogDetail extends Component {
               </div>
             </div>
             <div styleName="title">{blogDetail.title}</div>
-            <div id="blog-content" styleName="content" dangerouslySetInnerHTML = {{ __html:converter.makeHtml(blogDetail.content) }} />
+            <div id="blog-content" styleName="content">
+              <ReactMarkdown
+                source={blogDetail.content}
+                renderers={{
+                  code: HighLightCode,
+                }}
+              />
+            </div>
           </div>
           <div styleName="catalog">
             {catalog}

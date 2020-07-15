@@ -1,16 +1,14 @@
 import React from 'react';
 import _ from 'lodash';
-import hljs from 'highlight.js'
-import showdown from 'showdown';
 import { Form, Input, Button, Tag, Modal, message } from 'antd';
 import CSSModules from 'react-css-modules';
+import ReactMarkdown from 'react-markdown';
 import request from 'utils/request';
 import blogTags from 'constants/blog';
-import 'styles/highlight.css';
+import HighLightCode from 'components/highlightCode';
 import styles from './index.less';
 
 const { CheckableTag } = Tag;
-const converter = new showdown.Converter();
 
 @Form.create(BlogOperation)
 @CSSModules(styles)
@@ -115,13 +113,6 @@ export default class BlogOperation extends React.Component {
   preview = () => {
     this.setState({
       previewVisible: true,
-    }, () => {
-      if (document.getElementById('preview-content')) {
-        const preTags = document.getElementById('preview-content').getElementsByTagName('pre');
-        (Array.from(preTags) || []).forEach(item => hljs.highlightBlock(item));
-      } else {
-        this.preview();
-      }
     })
   }
 
@@ -178,7 +169,14 @@ export default class BlogOperation extends React.Component {
         >
           <div styleName="preview">
             <div styleName="title">{getFieldValue('title')}</div>
-            <div id="preview-content" styleName="content" dangerouslySetInnerHTML = {{ __html:converter.makeHtml(getFieldValue('content')) }} />
+            <div styleName="content">
+              <ReactMarkdown
+                source={getFieldValue('content')}
+                renderers={{
+                  code: HighLightCode,
+                }}
+              />
+            </div>
           </div>
         </Modal>
       </div>
