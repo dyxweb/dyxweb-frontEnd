@@ -12,18 +12,22 @@ module.exports = merge(common, {
       chunks: 'all',
       // 缓存分组
       cacheGroups: {
-        reactVendor: {
-          test: (module) => (/react/.test(module.context) || /redux/.test(module.context)
-            || /react-redux/.test(module.context) || /prop-types/.test(module.context)
-            || /react-router-dom/.test(module.context) || /react-dom/.test(module.context)),
-          priority: 3,
-          reuseExistingChunk: false
+        // 第三方模块
+        vendor: {
+          name: 'vendor', // chunk 名称
+          priority: 1, // 权限更高，优先抽离，重要！！！
+          test: /node_modules/, // 一般第三方模块都是从node_modules引进来如lodash
+          minSize: 0,  // 大小限制
+          minChunks: 1  // 最少复用过几次
         },
-        antdVendor: {
-          test: (module) => (/antd/.test(module.context)),
-          priority: 2,
-          reuseExistingChunk: false
-        },
+
+        // 公共的模块
+        common: {
+          name: 'common', // chunk 名称
+          priority: 0, // 优先级
+          minSize: 0,  // 公共模块的大小限制
+          minChunks: 2  // 公共模块最少复用过几次
+        }
       }
     }
   },
