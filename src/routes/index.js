@@ -10,6 +10,8 @@ import request from 'utils/request';
 import { getCookie } from 'utils/cookie';
 import { changePermission } from '../redux/login/actions';
 import NoPermission from 'components/noPermission';
+import HerTodo from 'containers/HerTodo';
+import OperationHerTodo from 'containers/HerTodo/operation';
 import BlogRoute from './blogRoute';
 import CategoryRoute from './categoryRoute';
 import TrainningRoute from './trainningRoute';
@@ -48,6 +50,8 @@ export default class App extends Component {
             <BlogRoute path="/blog" />
             <CategoryRoute path="/category" />
             <TrainningRoute path="/trainning" />
+            <Route exact path="/yingying" component={HerTodo} />
+            <Route exact path="/yingying/add" component={OperationHerTodo} />
             <Route path="/nopermission" component={NoPermission} />
           </Switch>
         </div>
