@@ -46,16 +46,33 @@ export default class BlogDetail extends Component {
   }
 
   // 复制代码
-  copyCode = code => {
-    console.log('copy');
-    if (_.get(navigator, 'clipboard.writeText')) {
+  copyCode = (codeDom) => {
+    const code = codeDom && codeDom.innerText;
+    if (navigator.clipboard) {
       navigator.clipboard.writeText(code).then(() => {
         Message.success("复制成功");
       },  (err) => {
         Message.error("复制失败");
       });
+    } else {
+      const textArea = document.createElement("textarea");
+      textArea.value = code;
+      textArea.style.position = "fixed";
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+      try {
+        const successful = document.execCommand('copy');
+        const msg = successful ? 'successful' : 'unsuccessful';
+        Message.success("复制成功");
+      } catch (err) {
+        Message.error("复制失败");
+      }
+      document.body.removeChild(textArea) 
     }
   };
+
+  
 
   // 代码高亮
   hightLight = () => {
@@ -80,7 +97,7 @@ export default class BlogDetail extends Component {
     this.setState({
       catalog: hTags,
     });
-    Array.from(document.querySelectorAll('.pre-code')).forEach(item => item.addEventListener('click', () => this.copyCode()));
+    Array.from(document.querySelectorAll('.pre-code')).forEach(item => item.addEventListener('click', () => this.copyCode(item.previousSibling)));
   }
 
   // 回到列表页
