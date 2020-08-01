@@ -22,7 +22,8 @@ export default class TeacherList extends Component {
 
   // 获取学生列表
   getTeacherList = () => {
-    request.get(`${QUERYHOST}/getTeacherList`).then(res => {
+    const { searchKey } = this.state;
+    request.get(`${QUERYHOST}/getTeacherList`, searchKey ? { searchKey } : {}).then(res => {
       if (res && res.success) {
         this.setState({
           teacherData: res.data || [],
@@ -42,7 +43,7 @@ export default class TeacherList extends Component {
   onSearch = value => {
     this.setState({
       searchKey: value,
-    })
+    }, () => this.getTeacherList())
   }
 
   // 重置搜索条件
@@ -50,7 +51,7 @@ export default class TeacherList extends Component {
     this.setState({
       searchValue: '',
       searchKey: '',
-    })
+    }, () => this.getTeacherList())
   }
 
   // 跳转到添加教师页面
@@ -136,7 +137,7 @@ export default class TeacherList extends Component {
           <div>
             <Search
               value={searchValue}
-              placeholder="请输入学生姓名"
+              placeholder="请输入老师姓名"
               onChange={this.onSearchChange}
               onSearch={this.onSearch}
               enterButton

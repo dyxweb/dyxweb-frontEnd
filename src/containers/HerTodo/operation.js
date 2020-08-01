@@ -19,11 +19,19 @@ export default class Operation extends Component {
         }
         request.post(`${QUERYHOST}/addHerTodo`, params).then(res => {
           if (res && res.success) {
-            this.props.history.push('/yingying')
+            this.props.history.push('/yingying');
+            message.success('保存成功了呦');
+          } else {
+            message.error('保存失败');
           }
         })
       }
     });
+  }
+
+  // 取消返回列表
+  onCancel = () => {
+    this.props.history.push('/yingying');
   }
 
   render() {
@@ -46,6 +54,7 @@ export default class Operation extends Component {
           </FormItem>
           <div style={{ textAlign: 'center' }}>
             <Button type="primary" htmlType="submit">保存</Button>
+            <Button style={{ marginLeft: '12px' }} onClick={this.onCancel}>取消</Button>
           </div>
         </Form>
       </div>

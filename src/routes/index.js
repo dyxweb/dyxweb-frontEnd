@@ -10,11 +10,10 @@ import request from 'utils/request';
 import { getCookie } from 'utils/cookie';
 import { changePermission } from '../redux/login/actions';
 import NoPermission from 'components/noPermission';
-import HerTodo from 'containers/HerTodo';
-import OperationHerTodo from 'containers/HerTodo/operation';
 import BlogRoute from './blogRoute';
 import CategoryRoute from './categoryRoute';
 import TrainningRoute from './trainningRoute';
+import TodoRoute from './todoRoute';
 import styles from './index.less';
 
 const mapStateToProps = state => ({
@@ -41,17 +40,17 @@ export default class App extends Component {
   }
 
   render() {
+    const hiddenHeader = _.get(location, 'pathname').startsWith('/yingying'); // 隐藏顶部导航
     return (
       <div styleName="app">
-        <Header />
-        <div styleName="all-content">
+        {hiddenHeader || <Header />}
+        <div styleName="all-content" style={hiddenHeader ? { height: '100vh' } : {}}>
           <Switch>
             <Redirect exact from="/" to="/blog" />
             <BlogRoute path="/blog" />
             <CategoryRoute path="/category" />
             <TrainningRoute path="/trainning" />
-            <Route exact path="/yingying" component={HerTodo} />
-            <Route exact path="/yingying/add" component={OperationHerTodo} />
+            <TodoRoute path="/yingying" />
             <Route path="/nopermission" component={NoPermission} />
           </Switch>
         </div>

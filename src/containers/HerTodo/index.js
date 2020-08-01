@@ -49,14 +49,13 @@ export default class HerTodo extends Component {
 
   render() {
     const { todoList, loading } = this.state;
-    console.log(todoList, loading);
     return (
       <div>
         {loading ?
-          <div>小仙女耐心等待一下</div> :
+          <div styleName="loading-box">小仙女耐心等待一下...</div> :
           <div>
             <div style={{ textAlign: 'center', padding: '8px 0' }}>
-              <Button type="primary" onClick={() => { this.props.history.push('/yingying/add')}}>添加</Button>
+              <Button type="primary" onClick={() => {this.props.history.push('/yingying/add')}}>添加</Button>
             </div>
             {todoList.map(item => (
               <div styleName="item" key={item.id}>

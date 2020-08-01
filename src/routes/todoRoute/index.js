@@ -1,5 +1,5 @@
 /**
- * 博客相关的路由
+ * 待办相关的路由
  */
 import React, { Component } from 'react';
 import { Switch } from 'react-router-dom';
@@ -8,7 +8,7 @@ import AuthRoute from '../authRoute';
 import routeConfig from './routeConfig';
 import menuConfig from './menuConfig';
 
-export default class BlogRoute extends Component {
+export default class TodoRoute extends Component {
   // 渲染带有左侧导航的路由
   renderPartScreenRoute = () => {
     return (

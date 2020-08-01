@@ -23,7 +23,8 @@ export default class StudentList extends Component {
 
   // 获取学生列表
   getStudentList = () => {
-    request.get(`${QUERYHOST}/getStudentList`).then(res => {
+    const { searchKey } = this.state;
+    request.get(`${QUERYHOST}/getStudentList`, searchKey ? { searchKey } : {}).then(res => {
       if (res && res.success) {
         this.setState({
           studentData: res.data || [],
@@ -43,7 +44,7 @@ export default class StudentList extends Component {
   onSearch = value => {
     this.setState({
       searchKey: value
-    })
+    }, () => this.getStudentList())
   }
 
   // 重置搜索条件
@@ -51,7 +52,7 @@ export default class StudentList extends Component {
     this.setState({
       searchValue: '',
       searchKey: '',
-    })
+    }, () => this.getStudentList())
   }
 
   // 跳转到添加学生页面

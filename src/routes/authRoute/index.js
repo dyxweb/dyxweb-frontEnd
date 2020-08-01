@@ -13,7 +13,7 @@ const mapStateToProps = state => ({
 
 @withRouter
 @connect(mapStateToProps, null)
-export default class AuthRouter extends Component {
+export default class AuthRoute extends Component {
   render() {
     const { routePermission, permission, isLogin } = this.props;
     // 没有配置权限或者设置normal权限或者配置的权限等于当前用户的权限类型表示有权限

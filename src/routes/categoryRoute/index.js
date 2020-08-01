@@ -4,7 +4,7 @@
 import React, { Component } from 'react';
 import { Switch, Redirect } from 'react-router-dom';
 import LeftNav from 'components/leftNav';
-import AuthRouter from '../authRouter';
+import AuthRoute from '../authRoute';
 import routeConfig from './routeConfig';
 import menuConfig from './menuConfig';
 
@@ -17,7 +17,7 @@ export default class CategoryRoute extends Component {
         <div className="right-content">
           <Switch>
             {routeConfig.partScreen.map((item, key) => (
-              <AuthRouter key={key} {...item} />
+              <AuthRoute key={key} {...item} />
             ))}
           </Switch>
         </div>
@@ -30,7 +30,7 @@ export default class CategoryRoute extends Component {
       <Switch>
         <Redirect exact from="/category" to="/category/func/generateTree" />
         {routeConfig.allScreen.map((item, key) => (
-          <AuthRouter key={key} {...item} />
+          <AuthRoute key={key} {...item} />
         ))}
         {this.renderPartScreenRoute()}
       </Switch>
