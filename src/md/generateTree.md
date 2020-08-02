@@ -15,6 +15,7 @@ const data = [
   { label: '3-1-1-1', value: '3-1-1-1', parentId: '3-1-1' },
   { label: '1-1-1', value: '1-1-1', parentId: '1-1'},
 ];
+
 /*
 * data:array 数组内部元素为对象，需要有后续两个参数对应的属性，relativeKey属性的值可以为空
 * uniqueKey: string 数组中每一项对象中唯一的标识所对应的属性
@@ -23,16 +24,16 @@ const data = [
 const generateTree = (data, uniqueKey, relativeKey) => {
   if (Array.isArray(data) && data.length > 0) {
     const treeData = []; // 最后返回的tree结构数据
-    const temptree = []; // 中间状态的数据
+    const temptree = {}; // 中间状态的数据
     const hasChildData = []; // data中添加children属性后的数据
     data.forEach(item => {
-      if(!temptree[item[uniqueKey]]) {
+      if (!temptree[item[uniqueKey]]) {
         let temp = item;
         temp.children = [];
         temptree[item[uniqueKey]] = temp;
         hasChildData.push(temp);
       }
-    })
+    });
     hasChildData.forEach(item => {
       // 如果有父节点则插入对应的children中
       if (temptree[item[relativeKey]]) {
@@ -41,11 +42,15 @@ const generateTree = (data, uniqueKey, relativeKey) => {
         // 无父节点则直接插入最终的数据中
         treeData.push(temptree[item[uniqueKey]]);
       }
-    })
+    });
     return treeData;
   } else {
     return [];
   }
 }
-generateTree(data, 'value', 'parentId');
+console.log(JSON.stringify(
+  generateTree(data, 'value', 'parentId'),
+  null,
+  2
+));
 ````
