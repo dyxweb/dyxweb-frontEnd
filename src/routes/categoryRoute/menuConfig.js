@@ -11,7 +11,7 @@ export default [
   { key: '/category/func/findParentId', label: 'findParentId' },
   { key: '/category/func/getLevelCount', label: 'getLevelCount' },
   { key: '/category/func/mapCategoryDataWithLevelInfo', label: 'mapCategoryDataWithLevelInfo' },
-  { key: '/category/func/isLastLevelId', label: 'isLastLevelId' },
+  { key: '/category/func/isLastLevelKey', label: 'isLastLevelKey' },
   { key: '/category/func/getLastLevelData', label: 'getLastLevelData' },
 
 ];

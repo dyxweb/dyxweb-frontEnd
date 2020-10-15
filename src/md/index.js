@@ -10,7 +10,7 @@ import getAllData from './getAllData.md';
 import findParentId from './findParentId.md';
 import getLevelCount from './getLevelCount.md';
 import mapCategoryDataWithLevelInfo from './mapCategoryDataWithLevelInfo.md';
-import isLastLevelId from './isLastLevelId.md';
+import isLastLevelKey from './isLastLevelKey.md';
 import getLastLevelData from './getLastLevelData.md';
 
 export default { 
@@ -24,5 +24,5 @@ export default {
   getLevelCount,
   mapCategoryDataWithLevelInfo,
   getLastLevelData,
-  isLastLevelId,
+  isLastLevelKey,
 }

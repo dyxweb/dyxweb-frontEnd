@@ -1,4 +1,4 @@
-## 根据所有最后一级id值得到想要的类目结构数据
+## 根据所有最后一级的唯一值得到想要的类目结构数据
 ```
 const categoryData = [
   {"label":'1',"value":"1","children":[

@@ -1,4 +1,4 @@
-## 指定一个id找到对应节点的祖先节点id
+## 指定一个唯一值找到对应节点的祖先节点id
 ```
 const categoryData = [
   {"label":'1',"value":"1","children":[

@@ -1,4 +1,4 @@
-## 判断某一个id是否为最后一层的id
+## 判断某一个唯一值是否为最后一层的数据
 ```
 const categoryData = [
   {"label":'1',"value":"1","children":[
@@ -52,52 +52,4 @@ const isLastLevelKey = (data, value, uniqueKey) => {
 };
 
 console.log(isLastLevelKey(categoryData, '3-1-1-1', 'value'));
-
-
-
-const isLastLevelId = (categoryData, id) => {
-  let flag = false; // 返回的标识
-  const deep = data => {
-    for(let i = 0; i < data.length; i++) {
-      if (data[i].id === id) {
-        if(Array.isArray(data[i].children) && data[i].children.length > 0) {
-          break;
-        } else {
-          flag = true;
-          break;
-        }
-      } else if (Array.isArray(data[i].children) && data[i].children.length > 0) {
-        deep(data[i].children);
-      }
-    }
-  };
-  deep(categoryData);
-  return flag;
-};
-
-// 优化后的方法，找到之后就不再循环(findFlag标识)
-const isLastLevelId = (categoryData, id) => {
-  let flag = false; // 返回的标识
-  let findFlag = false; // 是否找到的标识
-  const deep = data => {
-    for(let i = 0; i < data.length; i++) {
-      if (findFlag) {
-        break;
-      }
-      if (data[i].id === id) {
-        findFlag = true;
-        if(Array.isArray(data[i].children) && data[i].children.length > 0) {
-          break;
-        } else {
-          flag = true;
-          break;
-        }
-      } else if (Array.isArray(data[i].children) && data[i].children.length > 0) {
-        deep(data[i].children);
-      }
-    }
-  };
-  deep(categoryData);
-  return flag;
-};
 ```
