@@ -14,6 +14,7 @@ import BlogRoute from './blogRoute';
 import CategoryRoute from './categoryRoute';
 import TrainningRoute from './trainningRoute';
 import TodoRoute from './todoRoute';
+import WebRoute from './webRoute';
 import styles from './index.less';
 
 const mapStateToProps = state => ({
@@ -51,6 +52,7 @@ export default class App extends Component {
             <CategoryRoute path="/category" />
             <TrainningRoute path="/trainning" />
             <TodoRoute path="/yingying" />
+            <WebRoute path="/web" />
             <Route path="/nopermission" component={NoPermission} />
           </Switch>
         </div>

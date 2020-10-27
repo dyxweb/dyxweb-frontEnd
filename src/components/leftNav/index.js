@@ -13,14 +13,30 @@ const SubMenu = Menu.SubMenu;
 @CSSModules(styles)
 export default class LeftNav extends Component {
   render() {
-    const { location: { pathname }, menuConfig } = this.props;
+    const { location: { pathname }, menuConfig, openKeys } = this.props;
     // 选中的左侧导航的key
-    const activedLeftNav = _.get((menuConfig || []).find(item => pathname === item.key), 'key');
+    let activedLeftNav = (menuConfig || []).find(
+      item => {
+        if (_.isEmpty(item.submenu)) {
+          return pathname === item.key;
+        } else {
+          return item.submenu.find(item1 => item1.key === pathname);
+        }
+      }
+    );
+
+    if (_.isEmpty(activedLeftNav.submenu)) {
+      activedLeftNav = activedLeftNav.key;
+    } else {
+      activedLeftNav = _.get(activedLeftNav.submenu.find(item1 => item1.key === pathname), 'key');
+    }
+
     return (
       <div styleName="left-nav">
         <Menu
           mode="inline"
           selectedKeys={[activedLeftNav]}
+          openKeys={openKeys || []}
         >
           {(menuConfig || []).map(item => (
             (item.submenu || []).length > 0 ?

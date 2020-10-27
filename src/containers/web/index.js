@@ -3,24 +3,42 @@
  */
 import React from 'react';
 import CSSModules from 'react-css-modules';
-import { Message } from 'antd';
+import showdown from 'showdown';
 import hljs from 'highlight.js'
-import _ from 'lodash';
-import mdData from 'md/index.js';
+import request from 'utils/request';
 import styles from './index.less';
 
+const converter = new showdown.Converter();
 @CSSModules(styles)
-export default class CategoryFunc extends React.Component {
-  componentDidMount() {
-    this.hightLight();
+export default class Web extends React.Component {
+  state = {
+    content: "",
   }
 
-  componentDidUpdate() {
-    this.hightLight();
+  componentDidMount() {
+    this.getContent();
+  }
+
+  componentDidUpdate(preProps) {
+    if (_.get(preProps, 'match.params.name') !== _.get(this, 'props.match.params.name')) {
+      this.getContent();
+    }
   }
 
   componentWillUnMount() {
     Array.from(document.querySelectorAll('pre-code')).removeEventListener('click', this.copyCode);
+  }
+
+  getContent = () => {
+    const classification = _.get(this.props, 'match.params.classification');
+    const name = _.get(this.props, 'match.params.name');
+    request.get(`${QUERYHOST}/getWeb`, { classification, name }).then(res => {
+      if (res && res.success) {
+        this.setState({
+          content: res.data,
+        }, () => this.hightLight());
+      }
+    })
   }
 
   // 复制代码
@@ -65,10 +83,9 @@ export default class CategoryFunc extends React.Component {
   }
 
   render() {
-    const mdKey = _.get(this.props, 'match.params.funcname') || 'generateTree';
-    const matchMd = _.get(mdData, [mdKey]); // 匹配的markdown数据
+    const { content } = this.state;
     return (
-      <div styleName="category-md" dangerouslySetInnerHTML={{ __html: matchMd }} id="category-md" />
+      <div id="category-md" styleName="blog-detail" dangerouslySetInnerHTML = {{ __html: converter.makeHtml(content) }} />
     )
   }
 }  

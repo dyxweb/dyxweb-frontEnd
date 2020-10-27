@@ -9,7 +9,6 @@ import { connect } from 'react-redux';
 import showdown from 'showdown';
 import moment from 'moment';
 import request from 'utils/request';
-import 'styles/highlight.css';
 import styles from './index.less';
 
 const converter = new showdown.Converter();

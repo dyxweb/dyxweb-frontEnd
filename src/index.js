@@ -5,6 +5,7 @@ import { Provider } from 'react-redux'
 import App from './routes';
 import store from './redux/store.js'
 import 'styles/common.less';
+import 'highlight.js/styles/dark.css';
 
 ReactDOM.render(
   <Provider store={store}>

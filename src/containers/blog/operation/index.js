@@ -6,7 +6,6 @@ import { Form, Input, Button, Tag, Modal, message } from 'antd';
 import CSSModules from 'react-css-modules';
 import request from 'utils/request';
 import blogTags from 'constants/blog';
-import 'styles/highlight.css';
 import styles from './index.less';
 
 const { CheckableTag } = Tag;
