@@ -1,9 +1,10 @@
 .left-nav {
+  height: calc(100vh - 49px);
+  overflow-y: auto;
+  flex-shrink: 0;
   :global {
     .ant-menu {
       width: 256px;
-      height: calc(100vh - 49px);
-      overflow-y: auto;
       .ant-menu-item {
         width: 100% !important;
         a {

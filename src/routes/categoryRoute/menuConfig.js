@@ -5,6 +5,7 @@ export default [
   { key: '/category/func/generateTree', label: 'generateTree' },
   { key: '/category/func/mapCategoryData', label: 'mapCategoryData' },
   { key: '/category/func/filterCategoryData', label: 'filterCategoryData' },
+  { key: '/category/func/deleteAppointData', label: 'deleteAppointData' },
   { key: '/category/func/getAppointLevelCategoryData', label: 'getAppointLevelCategoryData' },
   { key: '/category/func/getAppointLevelAllData', label: 'getAppointLevelAllData' },
   { key: '/category/func/getAllData', label: 'getAllData' },

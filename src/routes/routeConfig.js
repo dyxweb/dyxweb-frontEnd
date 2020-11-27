@@ -1,4 +1,1 @@
-export default {
-  allScreen: [],
-  partScreen: []
-}
+export default [];

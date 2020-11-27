@@ -4,6 +4,7 @@
 import generateTree from './generateTree.md';
 import mapCategoryData from './mapCategoryData.md';
 import filterCategoryData from './filterCategoryData.md';
+import deleteAppointData from './deleteAppointData.md';
 import getAppointLevelCategoryData from './getAppointLevelCategoryData.md';
 import getAppointLevelAllData from './getAppointLevelAllData.md';
 import getAllData from './getAllData.md';
@@ -17,6 +18,7 @@ export default {
   generateTree,
   mapCategoryData,
   filterCategoryData,
+  deleteAppointData,
   getAppointLevelCategoryData,
   getAppointLevelAllData,
   getAllData,

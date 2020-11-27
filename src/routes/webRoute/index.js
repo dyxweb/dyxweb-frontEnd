@@ -13,7 +13,7 @@ export default class MyBlogRoute extends Component {
   renderPartScreenRoute = () => {
     return (
       <div className="all-content">
-        <LeftNav menuConfig={menuConfig} openKeys={[ 'js', 'vue' ]} />
+        <LeftNav menuConfig={menuConfig} defaultOpenKeys={[ 'js', 'vue' ]} />
         <div className="right-content">
           <Switch>
             {routeConfig.partScreen.map((item, key) => (

@@ -43,4 +43,35 @@ const post = (url, params) => {
   })
 };
 
-export default { get, post };
+// upload请求方法
+const upload = params => {
+  return fetch(`${QUERYHOST}/upload`, {
+    method: 'post',
+    body: params,
+    headers: {
+    },
+  })
+  .then((response) => response.json())
+  .then((json) => {
+    return json;
+  })
+  .catch((error) => {
+    // alert(error)
+  })
+};
+
+// const upload = params => {
+//   return new Promise(resolve => {
+//     const xhr = new XMLHttpRequest();
+//     xhr.open('post', `${QUERYHOST}/upload`);
+//     xhr.send(params);
+//     xhr.onload = e => {
+//       resolve({
+//         data: e.target.response
+//       });
+//     };
+//   });
+// }
+
+
+export default { get, post, upload };

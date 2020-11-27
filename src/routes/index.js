@@ -15,6 +15,7 @@ import CategoryRoute from './categoryRoute';
 import TrainningRoute from './trainningRoute';
 import TodoRoute from './todoRoute';
 import WebRoute from './webRoute';
+import UploadFile from 'containers/uploadFile';
 import styles from './index.less';
 
 const mapStateToProps = state => ({
@@ -53,6 +54,7 @@ export default class App extends Component {
             <TrainningRoute path="/trainning" />
             <TodoRoute path="/yingying" />
             <WebRoute path="/web" />
+            <Route path="/upload" component={UploadFile} />
             <Route path="/nopermission" component={NoPermission} />
           </Switch>
         </div>
