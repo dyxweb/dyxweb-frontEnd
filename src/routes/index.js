@@ -15,6 +15,7 @@ import CategoryRoute from './categoryRoute';
 import TrainningRoute from './trainningRoute';
 import TodoRoute from './todoRoute';
 import WebRoute from './webRoute';
+import AbortRoute from './abortRoute';
 import UploadFile from 'containers/uploadFile';
 import styles from './index.less';
 
@@ -54,6 +55,7 @@ export default class App extends Component {
             <TrainningRoute path="/trainning" />
             <TodoRoute path="/yingying" />
             <WebRoute path="/web" />
+            <AbortRoute path="/abort" />
             <Route path="/upload" component={UploadFile} />
             <Route path="/nopermission" component={NoPermission} />
           </Switch>
