@@ -18,6 +18,91 @@ const data = [
 
 /*
 * data:array 数组内部元素为对象，需要有后续两个参数对应的属性，relativeKey属性的值可以为空
+* parentId 数组中数据的关联值
+* uniqueKey: string 数组中每一项对象中唯一的标识所对应的属性
+* relativeKey: string 数组中每一项对象中关联父节点所对应的属性
+*/
+const generateTree = (data, parentId, uniqueKey, relativeKey) => {
+  return data.filter(item => {
+    if (item[relativeKey] === parentId) {
+      item.children = generateTree(data, item[uniqueKey], uniqueKey, relativeKey)
+      return true
+    }
+    return false
+  })
+}
+
+console.log(generateTree(data, undefined, 'value', 'parentId'));
+
+/*
+* data:array 数组内部元素为对象，需要有后续两个参数对应的属性，relativeKey属性的值可以为空
+* parentId 数组中数据的关联值
+* uniqueKey: string 数组中每一项对象中唯一的标识所对应的属性
+* relativeKey: string 数组中每一项对象中关联父节点所对应的属性
+*/
+// const generateTree = (data, parentId, uniqueKey, relativeKey) => {
+//   return data.filter(item => {
+//     if (item[relativeKey] !== parentId) {
+//       let parent = data.find(parent => parent[uniqueKey] === item[relativeKey])
+//       if (!parent.children) parent.children = []
+//       parent.children.push(item)
+//       return false
+//     }
+//     return true
+//   })
+// }
+
+console.log(generateTree(data, undefined, 'value', 'parentId'));
+
+/*
+* data:array 数组内部元素为对象，需要有后续两个参数对应的属性，relativeKey属性的值可以为空
+* parentId 数组中数据的关联值
+* uniqueKey: string 数组中每一项对象中唯一的标识所对应的属性
+* relativeKey: string 数组中每一项对象中关联父节点所对应的属性
+*/
+// const generateTree = (data, parentId, uniqueKey, relativeKey) => {
+//   let parentObj = {}
+//   return data.filter(item => {
+//     if (item[relativeKey] !== parentId) {
+//       if (!parentObj[item.parentId]) {
+//         parentObj[item[relativeKey]] = data.find(parent => parent[uniqueKey] === item[relativeKey])
+//         parentObj[item[relativeKey]].children = []
+//       }
+//       parentObj[item[relativeKey]].children.push(item)
+//       return false
+//     }
+//     return true
+//   })
+// }
+
+console.log(generateTree(data, undefined, 'value', 'parentId'));
+
+
+/
+* data:array 数组内部元素为对象，需要有后续两个参数对应的属性，relativeKey属性的值可以为空
+* parentId 数组中数据的关联值
+* uniqueKey: string 数组中每一项对象中唯一的标识所对应的属性
+* relativeKey: string 数组中每一项对象中关联父节点所对应的属性
+*/
+// const generateTree = (data, parentId, uniqueKey, relativeKey) => {
+//   let menuObj = {}
+//   data.forEach(item => {
+//     item.children = []
+//     menuObj[item[uniqueKey]] = item
+//   })
+//   return data.filter(item => {
+//     if (item[relativeKey] !== parentId) {
+//       menuObj[item[relativeKey]].children.push(item)
+//       return false
+//     }
+//     return true
+//   })
+// }
+
+console.log(generateTree(data, undefined, 'value', 'parentId'));
+
+/*
+* data:array 数组内部元素为对象，需要有后续两个参数对应的属性，relativeKey属性的值可以为空
 * uniqueKey: string 数组中每一项对象中唯一的标识所对应的属性
 * relativeKey: string 数组中每一项对象中关联父节点所对应的属性
 */
