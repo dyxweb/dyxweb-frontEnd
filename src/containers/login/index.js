@@ -3,7 +3,7 @@
  */
 import React, { Component } from 'react';
 import CSSModules from 'react-css-modules';
-import moment from 'moment';
+import CryptoJS from 'crypto-js';
 import { Icon, Form, Input, Button, Checkbox, message } from 'antd';
 import { connect } from 'react-redux';
 import request from 'utils/request';
@@ -31,9 +31,25 @@ export default class Login extends Component {
         value: getCookie("name") || '',
       },
       password:{
-        value: getCookie("password") || '',
+        value: getCookie("password") ? this.decryptPassword(getCookie("password")) : '',
       },
     })
+  }
+
+  // 加密
+  encryptPassword = value => {
+    return CryptoJS.AES.encrypt(value, CryptoJS.enc.Utf8.parse("dyxweb97"), {
+      mode: CryptoJS.mode.ECB,
+      padding: CryptoJS.pad.Pkcs7
+    }).toString();
+  }
+
+  // 解密
+  decryptPassword = value => {
+    return CryptoJS.AES.decrypt(value, CryptoJS.enc.Utf8.parse('dyxweb97'), {
+      mode: CryptoJS.mode.ECB,
+      padding: CryptoJS.pad.Pkcs7
+    }).toString(CryptoJS.enc.Utf8);
   }
 
   // 登录
@@ -41,6 +57,7 @@ export default class Login extends Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if(!err) {
+        values.password = this.encryptPassword(values.password);
         // 校验用户名和密码
         request.post(`${QUERYHOST}/login`, values).then(res => {
           if (res && res.success) {
@@ -75,8 +92,8 @@ export default class Login extends Component {
         // 注册用户
         const params = {
           name: values.name,
-          password: values.password,
-          createTime: moment().format('YYYY-MM-DD HH:mm:ss'),
+          password: this.encryptPassword(values.password),
+          permission: 'normal',
         }
         request.post(`${QUERYHOST}/addUser`, params).then(res => {
           if (res && res.success) {
@@ -86,8 +103,8 @@ export default class Login extends Component {
               type: 'login',
             }, () => {
               this.props.form.setFieldsValue({
-                name: params.name,
-                password: params.password,
+                name: values.name,
+                password: values.password,
               })
             })
           }
@@ -135,7 +152,7 @@ export default class Login extends Component {
                 <Checkbox>记住密码</Checkbox>
               )}
               {/* type为登录下才显示注册按钮 */}
-              {/* {type === 'login' && <Button type="link" onClick={this.onRegist}>注册</Button>} */}
+              {type === 'login' && <Button type="link" onClick={this.onRegistClick}>注册</Button>}
             </FormItem>
             <Button styleName="login-button" type="primary" htmlType="submit">{type === 'login' ? '登录' : '注册'}</Button>
           </Form>
