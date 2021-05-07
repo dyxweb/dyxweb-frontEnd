@@ -18,7 +18,7 @@ const data = [
 
 /*
 * data:array 数组内部元素为对象，需要有后续两个参数对应的属性，relativeKey属性的值可以为空
-* parentId 数组中数据的关联值
+* parentId 数据所关联的父节点的值
 * uniqueKey: string 数组中每一项对象中唯一的标识所对应的属性
 * relativeKey: string 数组中每一项对象中关联父节点所对应的属性
 */
@@ -36,7 +36,7 @@ console.log(generateTree(data, undefined, 'value', 'parentId'));
 
 /*
 * data:array 数组内部元素为对象，需要有后续两个参数对应的属性，relativeKey属性的值可以为空
-* parentId 数组中数据的关联值
+* parentId 数据所关联的父节点的值
 * uniqueKey: string 数组中每一项对象中唯一的标识所对应的属性
 * relativeKey: string 数组中每一项对象中关联父节点所对应的属性
 */
@@ -56,7 +56,7 @@ console.log(generateTree(data, undefined, 'value', 'parentId'));
 
 /*
 * data:array 数组内部元素为对象，需要有后续两个参数对应的属性，relativeKey属性的值可以为空
-* parentId 数组中数据的关联值
+* parentId 数据所关联的父节点的值
 * uniqueKey: string 数组中每一项对象中唯一的标识所对应的属性
 * relativeKey: string 数组中每一项对象中关联父节点所对应的属性
 */
@@ -80,7 +80,7 @@ console.log(generateTree(data, undefined, 'value', 'parentId'));
 
 /
 * data:array 数组内部元素为对象，需要有后续两个参数对应的属性，relativeKey属性的值可以为空
-* parentId 数组中数据的关联值
+* parentId 数据所关联的父节点的值
 * uniqueKey: string 数组中每一项对象中唯一的标识所对应的属性
 * relativeKey: string 数组中每一项对象中关联父节点所对应的属性
 */

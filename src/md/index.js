@@ -13,6 +13,8 @@ import getLevelCount from './getLevelCount.md';
 import mapCategoryDataWithLevelInfo from './mapCategoryDataWithLevelInfo.md';
 import isLastLevelKey from './isLastLevelKey.md';
 import getLastLevelData from './getLastLevelData.md';
+import addTreeNode from './addTreeNode.md';
+import addUniqueTreeKey from './addUniqueTreeKey.md';
 
 export default { 
   generateTree,
@@ -27,4 +29,6 @@ export default {
   mapCategoryDataWithLevelInfo,
   getLastLevelData,
   isLastLevelKey,
+  addTreeNode,
+  addUniqueTreeKey,
 }
