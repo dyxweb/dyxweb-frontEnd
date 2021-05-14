@@ -35,5 +35,11 @@ export default [
     { key: '/web/vue/vue技巧', label: 'vue技巧' },
     { key: '/web/vue/vue指令', label: 'vue指令' },
     { key: '/web/vue/vuex', label: 'vuex' }]
+  },
+  { key: 'interview', label: 'interview' , submenu: [
+    { key: '/web/interview/js', label: 'js' }]
+  },
+  { key: 'react', label: 'react' , submenu: [
+    { key: '/web/react/api', label: 'api' }]
   }
 ];
