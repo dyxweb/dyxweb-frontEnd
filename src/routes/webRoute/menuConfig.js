@@ -14,7 +14,7 @@ export default [
     { key: '/web/js/深浅拷贝', label: '深浅拷贝' },
     { key: '/web/js/算法时间空间复杂度', label: '算法时间空间复杂度' },
     { key: '/web/js/异步', label: '异步' },
-    { key: '/web/js/原型与原型链', label: '原型原型链' },
+    { key: '/web/js/原型原型链', label: '原型原型链' },
     { key: '/web/js/Array', label: 'Array' },
     { key: '/web/js/Function', label: 'Function' },
     { key: '/web/js/js模块机制', label: 'js模块机制' },
