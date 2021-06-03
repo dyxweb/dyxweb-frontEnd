@@ -1,6 +1,7 @@
 .blog-detail {
   display: flex;
   margin: 0 auto;
+  width: 100%;
   max-width: 960px;
   min-height: calc(100vh - 49px);
   color: #00214c;
@@ -10,6 +11,7 @@
     .operation {
       display: flex;
       justify-content: space-between;
+      flex-wrap: wrap;
       line-height: 32px;
       .time {
         font-size: 13px;
@@ -82,6 +84,18 @@
       top: 8px;
       right: 8px;
       cursor: pointer;
+    }
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  .blog-detail {
+    max-width: auto;
+    .detail {
+      width: 100%;
+    }
+    .catalog {
+      display: none;
     }
   }
 }

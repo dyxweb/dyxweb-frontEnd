@@ -7,6 +7,14 @@
     display: flex;
     justify-content: space-between;
     margin: 16px 0;
+    & > span {
+      margin-right: 8px;
+      max-width: 300px;
+      flex-grow: 1;
+    }
+    & > button {
+      flex-shrink: 0;
+    }
   }
 
   .blog-item {
@@ -21,11 +29,16 @@
       align-items: center;
       margin-bottom: 8px;
       .title {
+        margin-right: 8px;
         font-size: 16px;
         font-weight: 700;
         cursor: pointer;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
       }
       .time {
+        flex-shrink: 0;
         font-size: 12px;
       }
     }

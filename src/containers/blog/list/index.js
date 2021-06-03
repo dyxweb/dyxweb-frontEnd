@@ -82,7 +82,6 @@ export default class BlogList extends Component {
           <Search
             placeholder="可根据文章名称进行搜索"
             onSearch={this.onSearch}
-            style={{ width: '300px' }}
           />
           {canOpertion && <Button type="primary" onClick={this.addBlog}>添加文章</Button>}
         </div>
