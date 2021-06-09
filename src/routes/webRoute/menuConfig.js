@@ -3,25 +3,20 @@
  */
 export default [
   { key: 'js', label: 'js' , submenu: [
-    { key: '/web/js/闭包', label: '闭包' },
-    { key: '/web/js/函数柯里化', label: '函数柯里化' },
+    { key: '/web/js/滚动固定', label: '滚动固定' },
     { key: '/web/js/继承与创建对象', label: '继承与创建对象' },
     { key: '/web/js/兼容问题', label: '兼容问题' },
     { key: '/web/js/简单代码', label: '简单代码' },
+    { key: '/web/js/简单记录', label: '简单记录' },
+    { key: '/web/js/上传文件', label: '上传文件' },
     { key: '/web/js/手写JS', label: '手写JS' },
-    { key: '/web/js/节流与防抖', label: '节流与防抖' },
-    { key: '/web/js/类型转换', label: '类型转换' },
-    { key: '/web/js/深浅拷贝', label: '深浅拷贝' },
     { key: '/web/js/算法时间空间复杂度', label: '算法时间空间复杂度' },
-    { key: '/web/js/异步', label: '异步' },
-    { key: '/web/js/原型原型链', label: '原型原型链' },
-    { key: '/web/js/Array', label: 'Array' },
+    { key: '/web/js/class', label: 'class' },
+    { key: '/web/js/code', label: 'code' },
     { key: '/web/js/Function', label: 'Function' },
     { key: '/web/js/js模块机制', label: 'js模块机制' },
-    { key: '/web/js/js事件流', label: 'js事件流' },
-    { key: '/web/js/js预解析', label: 'js预解析' },
     { key: '/web/js/Object', label: 'Object' },
-    { key: '/web/js/this', label: 'this' }]
+    { key: '/web/js/promise', label: 'promise' }]
   },
   { key: 'vue', label: 'vue' , submenu: [
     { key: '/web/vue/计算属性', label: '计算属性' },
@@ -36,10 +31,4 @@ export default [
     { key: '/web/vue/vue指令', label: 'vue指令' },
     { key: '/web/vue/vuex', label: 'vuex' }]
   },
-  { key: 'interview', label: 'interview' , submenu: [
-    { key: '/web/interview/js', label: 'js' }]
-  },
-  { key: 'react', label: 'react' , submenu: [
-    { key: '/web/react/api', label: 'api' }]
-  }
 ];

@@ -3,7 +3,7 @@
  */
 import React from 'react';
 // 类目数据相关方法
-import CategoryFunc from 'containers/category/func';
+import CategoryFunc from 'containers/category';
 
 export default {
   allScreen: [],

@@ -25,7 +25,9 @@ export default class LeftNav extends Component {
       }
     );
 
-    if (_.isEmpty(activedLeftNav.submenu)) {
+    if (!activedLeftNav) {
+      activedLeftNav = ''
+    } else if (_.isEmpty(activedLeftNav.submenu)) {
       activedLeftNav = activedLeftNav.key;
     } else {
       activedLeftNav = _.get(activedLeftNav.submenu.find(item1 => item1.key === pathname), 'key');

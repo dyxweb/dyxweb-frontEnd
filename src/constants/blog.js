@@ -8,5 +8,6 @@ const blogTags = [
   'mysql', 
   'git', 
   'webpack',
+  'interview'
 ];
 export default blogTags;
