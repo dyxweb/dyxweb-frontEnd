@@ -28,7 +28,7 @@ export default class InterviewRoute extends Component {
   render() {
     return (
       <Switch>
-        <Redirect exact from="/interview" to="/interview/js" />
+        <Redirect exact from="/interview" to="/interview/js/Array" />
         {routeConfig.allScreen.map((item, key) => (
           <AuthRoute key={key} {...item} />
         ))}

@@ -28,7 +28,7 @@ export default class MyBlogRoute extends Component {
   render() {
     return (
       <Switch>
-        <Redirect exact from="/web" to="/web/js/闭包" />
+        <Redirect exact from="/web" to="/web/js/code" />
         {routeConfig.allScreen.map((item, key) => (
           <AuthRoute key={key} {...item} />
         ))}
