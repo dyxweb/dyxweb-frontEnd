@@ -41,7 +41,7 @@ export default class BlogDetail extends Component {
   }
 
   componentWillUnMount() {
-    Array.from(document.querySelectorAll('pre-code')).removeEventListener('click', this.copyCode);
+    Array.from(document.querySelectorAll('.pre-code')).removeEventListener('click', this.copyCode);
   }
 
   // 复制代码

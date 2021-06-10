@@ -49,7 +49,7 @@ export default class App extends Component {
     return (
       <div styleName="app">
         {hiddenHeader || <Header />}
-        <div styleName="all-content" style={hiddenHeader ? { height: '100vh' } : {}}>
+        <div styleName="all-content" style={hiddenHeader ? { height: '100vh' } : {}} id="all-content">
           <Switch>
             <Redirect exact from="/" to="/blog" />
             <BlogRoute path="/blog" />

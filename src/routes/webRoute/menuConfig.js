@@ -14,7 +14,6 @@ export default [
     { key: '/web/js/class', label: 'class' },
     { key: '/web/js/code', label: 'code' },
     { key: '/web/js/Function', label: 'Function' },
-    { key: '/web/js/js模块机制', label: 'js模块机制' },
     { key: '/web/js/Object', label: 'Object' },
     { key: '/web/js/promise', label: 'promise' }]
   },

@@ -6,9 +6,11 @@ import CSSModules from 'react-css-modules';
 import { Message } from 'antd';
 import hljs from 'highlight.js'
 import _ from 'lodash';
+import showdown from 'showdown';
 import mdData from 'md/category/index.js';
 import styles from './index.less';
 
+const converter = new showdown.Converter();
 @CSSModules(styles)
 export default class CategoryFunc extends React.Component {
   componentDidMount() {
@@ -20,7 +22,7 @@ export default class CategoryFunc extends React.Component {
   }
 
   componentWillUnMount() {
-    Array.from(document.querySelectorAll('pre-code')).removeEventListener('click', this.copyCode);
+    Array.from(document.querySelectorAll('.pre-code')).removeEventListener('click', this.copyCode);
   }
 
   // 复制代码
@@ -68,7 +70,7 @@ export default class CategoryFunc extends React.Component {
     const mdKey = _.get(this.props, 'match.params.funcname') || 'generateTree';
     const matchMd = _.get(mdData, [mdKey]); // 匹配的markdown数据
     return (
-      <div styleName="category-md" dangerouslySetInnerHTML={{ __html: matchMd }} id="category-md" />
+      <div styleName="category-md" dangerouslySetInnerHTML={{ __html: converter.makeHtml(matchMd) }} id="category-md" />
     )
   }
 }  
