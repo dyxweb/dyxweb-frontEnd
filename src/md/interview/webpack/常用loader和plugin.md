@@ -12,7 +12,7 @@ rules: [
 ]
 ```
 #### markdown-loader
-> 使用markdown-loader以及html-loader可以将引入的markdown文件转为html
+> 使用markdown-loader以及html-loader可以将引入的markdown文件转为html。代码区块有空行会显示错误。
 
 ```
 {
