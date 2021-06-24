@@ -4,7 +4,6 @@
 export default [
   { key: 'js', label: 'js' , submenu: [
     { key: '/web/js/滚动固定', label: '滚动固定' },
-    { key: '/web/js/继承与创建对象', label: '继承与创建对象' },
     { key: '/web/js/兼容问题', label: '兼容问题' },
     { key: '/web/js/简单代码', label: '简单代码' },
     { key: '/web/js/简单记录', label: '简单记录' },
@@ -13,9 +12,7 @@ export default [
     { key: '/web/js/算法时间空间复杂度', label: '算法时间空间复杂度' },
     { key: '/web/js/class', label: 'class' },
     { key: '/web/js/code', label: 'code' },
-    { key: '/web/js/Function', label: 'Function' },
-    { key: '/web/js/Object', label: 'Object' },
-    { key: '/web/js/promise', label: 'promise' }]
+    { key: '/web/js/Object', label: 'Object' }
   },
   { key: 'vue', label: 'vue' , submenu: [
     { key: '/web/vue/计算属性', label: '计算属性' },

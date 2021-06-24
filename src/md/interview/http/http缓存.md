@@ -22,7 +22,7 @@
 > 当浏览器对某个资源的请求没有命中强缓存，就会发一个请求到服务器，验证协商缓存是否命中，如果协商缓存命中，请求响应返回的http状态为304并且会显示一个Not Modified的字符串。协商缓存是利用的是【Last-Modified，If-Modified-Since】和【ETag、If-None-Match】这两对Header来管理的。协商缓存跟强缓存不一样，强缓存不发请求到服务器，所以有时候资源更新了浏览器还不知道，但是协商缓存会发请求到服务器，所以资源是否更新，服务器肯定知道。这两个header可以只启用一个，也可以同时启用，同时存在时，ETag优先级高于Last-Modified。
 
 #### 【Last-Modified，If-Modified-Since】
-> 如果服务器上资源有变化，但是最后修改时间却没有变化时就会影响协商缓存的可靠性。
+> 如果服务器上资源有变化，但是最后修改时间却没有变化时就会影响协商缓存的可靠性。Last-Modified 能够感知的单位时间是秒，如果文件在 1 秒内改变了多次，那么这时候的 Last-Modified 并没有体现出修改了。性能上，Last-Modified优于ETag。
 
 1. 浏览器第一次请求某一资源，如果response的header加上Last-Modified的header，这个header表示这个资源在服务器上的最后修改时间。
 2. 再次请求此资源时，在request的header上加上If-Modified-Since的header，这个header的值就是上一次请求时返回的Last-Modified的值。
@@ -52,3 +52,25 @@
 
 - HTML：使用协商缓存。
 - CSS&JS&图片：使用强缓存，文件命名带上hash值
+
+### 缓存位置
+#### 优先级从高到低
+1. Service Worker
+2. Memory Cache
+3. Disk Cache
+4. Push Cache
+#### Service Worker
+> Service Worker 借鉴了 Web Worker的 思路，即让 JS 运行在主线程之外，由于它脱离了浏览器的窗体，因此无法直接访问DOM。虽然如此，但它仍然能帮助我们完成很多有用的功能，比如离线缓存、消息推送和网络代理等功能。其中的离线缓存就是 Service Worker Cache。
+
+#### Memory Cache
+> Memory Cache指的是内存缓存，从效率上讲它是最快的。但是从存活时间来讲又是最短的，当渲染进程结束后，内存缓存也就不存在了。
+
+#### Disk Cache
+> Disk Cache就是存储在磁盘中的缓存，从存取效率上讲是比内存缓存慢的，但是他的优势在于存储容量和存储时长。
+好，现在问题来了，既然两者各有优劣，那浏览器如何决定将资源放进内存还是硬盘呢？主要策略如下：
+
+#### 区别
+> 比较大的JS、CSS文件会直接被丢进磁盘，反之丢进内存，内存使用率比较高的时候，文件优先进入磁盘。
+
+#### Push Cache
+> 推送缓存，这是浏览器缓存的最后一道防线。它是 HTTP/2 中的内容。

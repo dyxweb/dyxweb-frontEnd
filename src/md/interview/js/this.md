@@ -85,6 +85,8 @@ function Test1() {
 var obj = new Test1(); // { name: 'dyx' }
 console.log(obj.name); // dyx, 这里的this指向的是new出来的新对象
 ```
+- DOM事件绑定
+> onclick和addEventerListener中 this 默认指向绑定事件的元素。IE比较奇异，使用attachEvent，里面的this默认指向window。
 ### 箭头函数this的指向
 - 箭头函数没有自己的this，如果箭头函数外层有函数，外层函数的this就是内部箭头函数的this，否则this就是window。箭头函数的this指向该函数定义时的作用域，而非指向调用函数的对象。
 ```

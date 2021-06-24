@@ -1,5 +1,6 @@
 ## 常用loader和plugin
 ### loader
+> loader是文件加载器，能够加载资源文件，并对这些文件进行一些处理，诸如编译、压缩等，最终一起打包到指定的文件中
 #### raw-loader
 > 此loader可以允许我们以字符串的形式引入文件原始内容，比如markdown文件等。
 
@@ -21,6 +22,8 @@ rules: [
 },
 ```
 ### plugin
+> plugin是一个扩展器，它丰富了webpack本身，针对是loader结束后，webpack打包的整个过程，它并不直接操作文件，而是基于事件机制工作，会监听webpack打包过程中的某些节点，执行广泛的任务。
+
 #### define-plugin
 > 定义全局的变量(一般用于区分生产环境和开发环境)
 

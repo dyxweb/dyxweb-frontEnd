@@ -1,5 +1,40 @@
 ## Promise
-### Promise
+
+### 手写Promise
+#### 基本功能
+1. Promise 是一个类，在执行这个类的时候会传入一个执行器，这个执行器会立即执行,执行器会传入内部的resolve和reject方法供调用的时候使用
+2. Promise 会有三种状态Pending 等待, Fulfilled 完成, Rejected 失败,状态只能由 Pending --> Fulfilled 或者 Pending --> Rejected，且一但发生改变便不可二次修改
+3. Promise 中使用 resolve 和 reject 两个函数来更改状态；
+4. then 方法内部做的事情就是状态判断,如果状态是成功，调用成功回调函数, 如果状态是失败，调用失败回调函数
+
+#### Promise处理异步，保证.then的执行等待异步执行完
+1. then方法中判断当前的状态，如果是Pending 则缓存成功和失败的回调函数，待状态改变之后在对应的reject或resolve方法中调用对应的回调函数
+
+#### then方法的多次调用实现
+1. 如果是Pending 则缓存成功和失败的回调函数，缓存时应该缓存所有的回调函数(数组存储)，状态改变之后调用的时候循环调用存储的回调函数
+
+#### then方法的链式调用
+1. then 方法要链式调用那么就需要返回一个 Promise 对象
+
+#### then方法判断是否返回自己
+> 如果 then 方法返回的是自己的 Promise 对象，则会发生循环调用，这个时候程序会报错
+
+1. 判断返回的Promise是否等于自己，如果等于自己抛错
+2. 判断的过程在Promise的运行过程中，此时无法获取到返回的Promise，所以判断的过程需要创建微任务来处理，保证可以获取到返回的Promise
+
+#### 捕获错误
+1. 捕获执行器中的代码，如果执行器中有代码错误(外部调用的语法)，那么 Promise 的状态要变为失败
+2. then方法执行时捕获错误
+
+#### then方法的参数可选
+> then方法的参数可以不传或者单传都不影响执行
+
+1. then方法的参数进行判断，没有传入参数时执行默认的方法
+
+#### resolve和reject的静态调用
+1. 在Promise类中使用static关键字实现resolve和reject方法
+2. 方法的内部就是调用new Promise((resolve, reject) => {})
+### 实现
 ```
 const PENDING = 'pending';
 const FULFILLED = 'fulfilled';

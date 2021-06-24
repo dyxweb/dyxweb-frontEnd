@@ -73,7 +73,8 @@ arr.slice(2, 4) // [3, 4]
 arr.slice(0, -2) // [1, 2, 3] 截取直倒数第二位
 ```
 ### forEach
-> forEach没有办法使用continue和break语句，可以使用return来实现continue的效果，想要实现break效果可以使用try catch 来实现对应效果
+- 在forEach中用return不会返回，函数会继续执行。使用try监视代码块，在需要中断的地方抛出异常。或使用every和some替代forEach函数。every在碰到return false的时候，中止循环。some在碰到return true的时候，中止循环。
+- 对于异步代码，forEach 并不能保证按顺序执行，因为forEach的实现是直接循环调用传入的函数，无法保证异步任务的执行顺序。使用for of 解决，for...of并不像forEach那么简单粗暴的方式去遍历执行，而是采用迭代器的形式去遍历。
 
 ### Array.isArray()
 > 判断是否为数组类型
