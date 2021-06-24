@@ -68,6 +68,7 @@ export default class Login extends Component {
             message.success('登陆成功');
             this.props.colseDialogFunc();
             setCookie("islogin", 1, 3);
+            setCookie("token", _.get(res, 'data.token'), 3);
             // 记住用户名
             setCookie("name", values.name, 7);
             // 如果选择记住密码则保存密码

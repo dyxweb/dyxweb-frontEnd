@@ -42,6 +42,7 @@ export default class Header extends Component {
     });
     // 清除是否登录的缓存
     delCookie('islogin');
+    delCookie('token');
     message.success('退出登录成功');
   }
 

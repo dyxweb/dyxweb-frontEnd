@@ -12,7 +12,7 @@ export default [
     { key: '/web/js/算法时间空间复杂度', label: '算法时间空间复杂度' },
     { key: '/web/js/class', label: 'class' },
     { key: '/web/js/code', label: 'code' },
-    { key: '/web/js/Object', label: 'Object' }
+    { key: '/web/js/Object', label: 'Object' }]
   },
   { key: 'vue', label: 'vue' , submenu: [
     { key: '/web/vue/计算属性', label: '计算属性' },

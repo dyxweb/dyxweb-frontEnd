@@ -1,6 +1,8 @@
 /**
  * 接口请求方法(get, post)
  */
+import { getCookie } from 'utils/cookie';
+
 // get请求方法
 const get = (url, params) => {
   if (params) {
@@ -15,9 +17,15 @@ const get = (url, params) => {
   }
   return fetch(url, {
     method: 'get',
+    headers: {
+      'Authorization': getCookie('token')
+    },
   })
-  .then((response) => response.json())
+  .then((response) =>  response.json())
   .then((json) => {
+    if (json.code === 401) {
+      window.location.href = '/nopermission'
+    }
     return json;
   })
   .catch((error) => {
@@ -31,11 +39,15 @@ const post = (url, params) => {
     method: 'post',
     body: JSON.stringify(params),
     headers: {
-      'content-type': 'application/json'
+      'content-type': 'application/json',
+      'Authorization': getCookie('token')
     },
   })
   .then((response) => response.json())
   .then((json) => {
+    if (json.code === 401) {
+      window.location.href = '/nopermission'
+    }
     return json;
   })
   .catch((error) => {
