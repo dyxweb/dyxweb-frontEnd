@@ -1,0 +1,45 @@
+.blog-operation {
+  width: 80%;
+  margin: 0 auto;
+  .top-des {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin: 24px 0;
+    .des {
+      font-size: 24px;
+      font-weight: 600;
+    }
+  }
+
+  .title {
+    margin-bottom: 24px;
+    :global {
+      .ant-input {
+        height: 48px;
+        font-size: 24px;
+        outline: none;
+      }
+    }
+  }
+}
+.preview {
+  .title {
+    font-size: 16px;
+    font-weight: 700;
+    margin: 12px 0;
+  }
+  .content {
+    blockquote {
+      padding: 8px;
+      line-height:24px;
+      color: #666;
+      margin: 8px 0;
+      border-left: 4px solid #cbcbcb;
+      background-color: #f8f8f8;
+      p {
+        margin: 0;
+      }
+    }
+  }
+}

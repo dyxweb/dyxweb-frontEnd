@@ -1,0 +1,35 @@
+.left-nav {
+  height: calc(100vh - 49px);
+  overflow-y: auto;
+  flex-shrink: 0;
+  border-right: 1px solid #eee;
+  :global {
+    .ant-menu {
+      width: 256px;
+      .ant-menu-item {
+        width: 100% !important;
+        a {
+          width: 100%;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+      }
+    }
+    .ant-menu-inline, .ant-menu-vertical, .ant-menu-vertical-left {
+      border: none;
+    }
+    .ant-menu-inline .ant-menu-item, .ant-menu-inline .ant-menu-submenu-title {
+      width: 100%;
+    }
+  }
+}
+
+@media only screen and (max-width: 700px ) {
+  .left-nav {
+    :global {
+      .ant-menu {
+        width: 100px;
+      }
+    }
+  }
+}

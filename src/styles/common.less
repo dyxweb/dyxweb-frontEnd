@@ -1,0 +1,16 @@
+/* 通用的css样式 */
+* {
+  box-sizing: border-box;
+}
+
+:global {
+  .all-content {
+    display: flex;
+    height: 100%;
+    .right-content {
+      overflow-y: auto;
+      flex-grow: 1;
+      padding: 24px;
+    }
+  }
+}

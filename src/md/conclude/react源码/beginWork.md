@@ -1,0 +1,2 @@
+## beginWork
+- 组件更新从根组件生成新的Fiber树，没有更新的节点会复用原来的Fiber节点(attemptEarlyBailoutIfNoScheduledUpdate方法)，对应组件不会重新render，有更新的节点会调用组件重新生成Fiber节点，对应组件会重新render

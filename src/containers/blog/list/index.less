@@ -1,0 +1,55 @@
+.blog-list {
+  max-width: 960px;
+  min-height: calc(100vh - 49px);
+  margin: 0 auto;
+
+  .top-operation {
+    display: flex;
+    justify-content: space-between;
+    margin: 16px 0;
+    & > span {
+      margin-right: 8px;
+      max-width: 300px;
+      flex-grow: 1;
+    }
+    & > button {
+      flex-shrink: 0;
+    }
+  }
+
+  .blog-item {
+    background: #fff;
+    padding: 16px;
+    color: #00214c;
+    box-shadow: 0 1px 10px 4px rgb(243, 246, 251);
+    cursor: pointer;
+    .title-box {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+      .title {
+        margin-right: 8px;
+        font-size: 16px;
+        font-weight: 700;
+        cursor: pointer;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .time {
+        flex-shrink: 0;
+        font-size: 12px;
+      }
+    }
+    .bottom-operation {
+      display: inline-block;
+      .button {
+        font-size: 13px;
+        margin-right: 8px;
+        color: #1890ff;
+        cursor: pointer;
+      }
+    }
+  }
+}

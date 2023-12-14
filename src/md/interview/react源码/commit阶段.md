@@ -1,0 +1,50 @@
+## commit阶段
+- 在render阶段可以异步中断，但是在commit阶段，一旦开始就不可以被打断，会同步执行直到完成。
+- 源码逻辑入口主要在commitRoot方法及方法内部调用的commitRootImpl方法。
+ 
+### commit阶段主要工作
+- 真实DOM的更新。
+- 生命周期函数以及hooks逻辑的执行。
+- ref引用的处理。
+- Fiber树的切换，workInProgress Fiber树切换为current Fiber树。
+### commit阶段工作步骤
+- 准备工作阶段
+- beforeMutation阶段
+- Mutation阶段
+- Fiber树切换阶段
+- Layout阶段
+- 结束工作阶段
+### 准备工作阶段
+- commitRootImpl方法内部会先执行flushPassiveEffects方法，去完成上一次commit可能存在的useEffect，从而保证每一次commit阶段调度的useEffect必须在下一次commit执行之前先执行一次。
+- 然后调度本次commit阶段的useEffect，通过scheduleCallback方法生成一个新的宏任务来处理，从而保证在本次DOM更新完成后执行。
+### beforeMutation阶段
+- commitRootImpl方法内部调用commitBeforeMutationEffects方法(遍历整个Fiber树)。
+- commitBeforeMutationEffects方法内部调用commitBeforeMutationEffects_begin、commitBeforeMutationEffects_complete方法，实现对整个Fiber树的遍历，遍历流程与生成Fiber树的beginWork、completeWork方法类似。
+- commitBeforeMutationEffects_complete方法内部调用commitBeforeMutationEffectsOnFiber方法根据Fiber节点类型执行对应逻辑。
+  - 针对class组件更新实例上的state、props等以及处理getSnapshotBeforeUpdate生命周期方法。
+  - 针对HostFiber节点(根Fiber节点)清空根DOM节点内部内容方便mutation阶段的渲染。
+### Mutation阶段
+- commitRootImpl方法内部调用commitMutationEffects方法，commitMutationEffects方法内部调用commitMutationEffectsOnFiber方法。
+- commitMutationEffectsOnFiber方法根据Fiber节点类型执行对应逻辑。针对class组件、function组件、原生DOM节点、文本节点、HostFiber节点执行相同的逻辑调用recursivelyTraverseMutationEffects方法和commitReconciliationEffects方法自上而下开始遍历执行删除DOM操作，然后到了最底层子节点开始自下而上执行插入和更新DOM操作。
+- recursivelyTraverseMutationEffects方法内部根据节点的deletions属性循环执行对应删除逻辑。deletions中的节点依次调用commitDeletionEffects方法，commitDeletionEffects方法内部又会调用commitDeletionEffectsOnFiber方法。
+  - 针对原生DOM节点设置ref为null，向下遍历子节点执行删除操作，调用removeChild方法删除真实DOM。
+  - 针对class组件设置ref为null，执行componentWillUnmount生命周期函数，向下遍历子节点执行删除操作。
+  - 针对function组件执行useLayoutEffect的destory销毁逻辑，向下遍历子节点执行删除操作。
+- commitReconciliationEffects方法内部会调用commitPlacement方法执行真实DOM的更新操作。
+- **Mutation阶段的循环区别于beforeMutation阶段的循环，不会有向上return循环父节点时执行对应生命周期的逻辑，所以父子组件生命周期的调用顺序中componentWillUnmount生命周期方法的调用顺序区别于其它生命周期方法。**
+- **Mutation阶段真实DOM已经渲染完毕。**
+### Fiber树切换阶段
+- commitRootImpl方法内部调用root.current = finishedWork完成Fiber 树的切换。
+- 之所以在这一时机切换Fiber树是因为class组件当执行componentWillUnmount(Mutation阶段)的时候，current Fiber树仍对应UI中的树，当执行componentDidMount/componentDidUpdate(Layout阶段)的时候，current Fiber树就对应本次更新的Fiber树了，也就是原来的workInProgress Fiber树变成了current Fiber树。
+### Layout阶段
+- commitRootImpl方法内部调用commitLayoutEffects方法。
+- commitLayoutEffects方法内部调用commitLayoutEffects_begin、commitLayoutMountEffects_complete方法，实现对整个Fiber树的遍历，遍历流程与beforeMutation阶段类似。
+- commitLayoutMountEffects_complete方法内部调用commitLayoutEffectOnFiber方法，commitLayoutEffectOnFiber方法根据Fiber节点类型执行对应逻辑
+  - 针对function组件执行useLayoutEffect内部逻辑。
+  - 针对class组件执行componentDidMount或componentDidUpdate生命周期函数，之后还要处理commitUpdateQueue中的回调函数(setState的回调)。
+  - 针对HostFiber节点处理ReactDOM.render的回调函数。
+  - 针对原生DOM节点处理自动更新的情况。
+### 结束工作阶段
+- 再次处理useEffect的逻辑，先执行destory销毁逻辑再执行内部的逻辑。
+- 执行commit阶段相关的同步任务。
+- **useEffect在useLayoutEffect之后执行，useLayoutEffect在layout阶段执行。**
