@@ -4,8 +4,7 @@
   "description": "个人网站前端项目",
   "scripts": {
     "build": "webpack --config ./config/webpack.prod.js --mode production",
-    "start": "webpack-dev-server --open --config ./config/webpack.dev.js --mode development",
-    "deploy": "npm run build && node deploy.js"
+    "start": "webpack-dev-server --open --config ./config/webpack.dev.js --mode development"
   },
   "author": "dyxweb",
   "devDependencies": {
