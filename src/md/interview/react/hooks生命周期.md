@@ -11,7 +11,7 @@
 2. React更新DOM
 3. 清除LayoutEffects
 4. 运行LayoutEffects
-5. 浏览器绘制屏幕hooks生命周期
+5. 浏览器绘制屏幕
 6. 清理Effects
 7. 运行Effects
 ### 卸载
