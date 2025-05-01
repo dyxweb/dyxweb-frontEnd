@@ -86,6 +86,7 @@ export default class Interview extends React.Component {
 	  const classification = lodashGet(this.props, 'match.params.classification');
 	  const name = lodashGet(this.props, 'match.params.name');
     const currentIndex = mdData.findIndex(item => item.label === `${classification}/${name}`)
+		console.log(currentIndex)
 		let nextIndex = currentIndex + 1
 		let prevIndex = currentIndex - 1
 		// 最后一个
@@ -100,10 +101,10 @@ export default class Interview extends React.Component {
 
 		return (
 			<div styleName="content">
-				<div styleName="top">
+			{mdData[prevIndex] && mdData[nextIndex] && <div styleName="top">
 					<div onClick={() => this.jump(prevIndex)}>上一篇：{mdData[prevIndex].label}</div>
 					<div onClick={() => this.jump(nextIndex)}>下一篇：{mdData[nextIndex].label}</div>
-				</div>
+				</div>}
 				<div styleName="category-md" dangerouslySetInnerHTML = {{ __html: converter.makeHtml(require(`../../md/interview/${classification}/${name}.md`).default) }} id="category-md" />
 			</div>
 		)
