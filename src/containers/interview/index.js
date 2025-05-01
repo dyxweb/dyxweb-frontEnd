@@ -85,7 +85,7 @@ export default class Interview extends React.Component {
 	render() {
 	  const classification = lodashGet(this.props, 'match.params.classification');
 	  const name = lodashGet(this.props, 'match.params.name');
-    const currentIndex = mdData.findIndex(item => item.label === `${classification}/${name}`)
+    const currentIndex = mdData.findIndex(item => (item && item.label) === `${classification}/${name}`)
 		console.log(currentIndex)
 		let nextIndex = currentIndex + 1
 		let prevIndex = currentIndex - 1
